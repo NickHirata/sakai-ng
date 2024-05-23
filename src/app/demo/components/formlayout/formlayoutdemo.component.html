@@ -1,6 +1,6 @@
 <div class="grid">
-	<div class="col-12 md:col-6">
-		<!-- <div class="card p-fluid">
+    <div class="col-12 md:col-6">
+        <!-- <div class="card p-fluid">
 			<h5>Vertical</h5>
 			<div class="field">
 				<label htmlFor="name1">Name</label>
@@ -15,7 +15,7 @@
 				<input pInputText id="age1" type="text" />
 			</div>
 		</div>
-		
+
 		<div class="card p-fluid">
 			<h5>Vertical Grid</h5>
 			<div class="p-formgrid grid">
@@ -73,32 +73,68 @@
 		</div>
 	</div> -->
 
-	<div class="col-12">
-		<div class="card">
-			<h5>Cadastro de usuário</h5>
-			<div class="p-fluid p-formgrid grid">
-				<div class="field col-12 md:col-6">
-					<label htmlFor="nome">Nome</label>
-					<input pInputText id="nome" type="text" />
-				</div>
-				<div class="field col-12 md:col-6">
-					<label htmlFor="sobrenome">Sobrenome</label>
-					<input pInputText id="sobrenome" type="text" />
-				</div>
-				<div class="field col-12">
-					<label htmlFor="email">E-mail</label>
-					<input pInputTextarea id="email" rows="4" />
-				</div>
-				<div class="field col-12 md:col-6">
-					<label htmlFor="city">Senha</label>
-					<input pInputText id="senha" type="text" />
-				</div>
-				<div class="field col-12 md:col-3">
-					<label htmlFor="tipo">Tipo</label>
-					<p-dropdown [options]="dropdownItems" optionLabel="name" [(ngModel)]="selectedState"></p-dropdown>
-				</div>
-				<button pButton label="Submit"></button>
-			</div>
-		</div>
-	</div>
+        <div class="col-12">
+            <div class="card">
+                <h5>Cadastro de usuário</h5>
+
+                <form (ngSubmit)="onSubmit()" #userForm="ngForm">
+                    <div class="p-fluid p-formgrid grid">
+                        <div class="field col-12 md:col-6">
+                            <label htmlFor="name">Nome</label>
+                            <input
+                                pInputText
+                                id="name"
+                                type="text"
+                                name="name"
+                                [(ngModel)]="userData.name"
+                                required
+                            />
+                        </div>
+
+                        <div class="field col-12">
+                            <label htmlFor="email">E-mail</label>
+                            <input
+                                pInputText
+                                id="email"
+                                type="email"
+                                name="email"
+                                [(ngModel)]="userData.email"
+                                required
+                            />
+                        </div>
+
+                        <div class="field col-12 md:col-6">
+                            <label htmlFor="password">Senha</label>
+                            <input
+                                pInputText
+                                id="password"
+                                type="password"
+                                name="password"
+                                [(ngModel)]="userData.password"
+                                required
+                            />
+                        </div>
+
+                        <div class="field col-12 md:col-3">
+                            <label htmlFor="type">Tipo</label>
+                            <p-dropdown
+                                [options]="dropdownItems"
+                                optionLabel="name"
+                                name="type"
+                                [(ngModel)]="userData.type"
+                                required
+                            ></p-dropdown>
+                        </div>
+
+                        <button
+                            pButton
+                            type="submit"
+                            label="Submit"
+                            [disabled]="!userForm.form.valid"
+                        ></button>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
 </div>

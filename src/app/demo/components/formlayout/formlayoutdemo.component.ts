@@ -1,32 +1,32 @@
 import { Component } from '@angular/core';
+import { AuthService } from 'src/app/demo/service/auth.service';
+import { UserRegistrationData } from 'src/app/demo/service/auth.service';
 
 @Component({
     templateUrl: './formlayoutdemo.component.html',
-    
+
 })
 export class FormLayoutDemoComponent {
+    userData: UserRegistrationData = {
+        name: '',
+        email: '',
+        password: '',
+        type: ''
+    };
 
-    selectedState: any = null;
+    constructor(private authService: AuthService) {}
 
-    states: any[] = [
-        {name: 'Arizona', code: 'Arizona'},
-        {name: 'California', value: 'California'},
-        {name: 'Florida', code: 'Florida'},
-        {name: 'Ohio', code: 'Ohio'},
-        {name: 'Washington', code: 'Washington'}
-    ];
-
-    dropdownItems = [
-        { name: 'Administrador', code: 'a' },
-        { name: 'Desenvolvedor', code: 'd' }
-    ];
-
-    cities1: any[] = [];
-
-    cities2: any[] = [];
-
-    city1: any = null;
-
-    city2: any = null;
-
+  onSubmit() {
+    this.authService.registerUser(this.userData)
+      .subscribe(
+        response => {
+          console.log('Usuário registrado com sucesso:', response);
+          // Lógica para redirecionar ou exibir mensagem de sucesso
+        },
+        error => {
+          console.error('Erro ao registrar usuário:', error);
+          // Lógica para exibir mensagem de erro
+        }
+      );
+  }
 }

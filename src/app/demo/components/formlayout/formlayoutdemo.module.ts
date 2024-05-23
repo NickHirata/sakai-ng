@@ -32,4 +32,9 @@ import { InputTextModule } from "primeng/inputtext";
 	],
 	declarations: [FormLayoutDemoComponent]
 })
-export class FormLayoutDemoModule { }
+export class FormLayoutDemoModule {
+    dropdownItems: SelectItem[] = [
+        {label: 'Usuário', value: 'user'},
+        {label: 'Administrador', value: 'admin'}
+    ];
+}
