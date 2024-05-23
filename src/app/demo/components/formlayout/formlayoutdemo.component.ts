@@ -16,6 +16,7 @@ export class FormLayoutDemoComponent {
 
     constructor(private authService: AuthService) {}
 
+
   onSubmit() {
     this.authService.registerUser(this.userData)
       .subscribe(
@@ -29,4 +30,7 @@ export class FormLayoutDemoComponent {
         }
       );
   }
+
+    password!: string;
+
 }
