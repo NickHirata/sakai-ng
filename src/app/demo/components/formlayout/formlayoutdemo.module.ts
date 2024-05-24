@@ -17,28 +17,23 @@ import { RouterModule } from '@angular/router';
 import { PasswordModule } from 'primeng/password';
 
 @NgModule({
-	imports: [
-		CommonModule,
-		FormsModule,
-		FormLayoutDemoRoutingModule,
-		AutoCompleteModule,
-		CalendarModule,
-		ChipsModule,
-		DropdownModule,
-		InputMaskModule,
-		InputNumberModule,
-		CascadeSelectModule,
-		MultiSelectModule,
-		InputTextareaModule,
-		InputTextModule,
-		RouterModule,
-		PasswordModule
-	],
-	declarations: [FormLayoutDemoComponent]
+    imports: [
+        CommonModule,
+        FormsModule,
+        FormLayoutDemoRoutingModule,
+        AutoCompleteModule,
+        CalendarModule,
+        ChipsModule,
+        DropdownModule,
+        InputMaskModule,
+        InputNumberModule,
+        CascadeSelectModule,
+        MultiSelectModule,
+        InputTextareaModule,
+        InputTextModule,
+        RouterModule,
+        PasswordModule
+    ],
+    declarations: [FormLayoutDemoComponent]
 })
-export class FormLayoutDemoModule {
-    dropdownItems: SelectItem[] = [
-        {label: 'Usuário', value: 'user'},
-        {label: 'Administrador', value: 'admin'}
-    ];
-}
+export class FormLayoutDemoModule {}

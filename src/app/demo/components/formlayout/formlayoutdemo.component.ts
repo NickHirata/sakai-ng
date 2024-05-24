@@ -1,10 +1,9 @@
 import { Component } from '@angular/core';
-import { AuthService } from 'src/app/demo/service/auth.service';
-import { UserRegistrationData } from 'src/app/demo/service/auth.service';
+import { AuthService, UserRegistrationData } from 'src/app/demo/service/auth.service';
+import { SelectItem } from 'primeng/api'; // Importando SelectItem do PrimeNG
 
 @Component({
     templateUrl: './formlayoutdemo.component.html',
-
 })
 export class FormLayoutDemoComponent {
     userData: UserRegistrationData = {
@@ -14,23 +13,30 @@ export class FormLayoutDemoComponent {
         type: ''
     };
 
+    dropdownItems: SelectItem[] = [
+        { label: 'Usuário', value: 'user' },
+        { label: 'Administrador', value: 'admin' }
+    ];
+
+    selectedState: any = null;
+    password: string = '';
+
     constructor(private authService: AuthService) {}
 
+    onSubmit() {
+        this.userData.type = this.selectedState ? this.selectedState.value : '';
+        this.userData.password = this.password;
 
-  onSubmit() {
-    this.authService.registerUser(this.userData)
-      .subscribe(
-        response => {
-          console.log('Usuário registrado com sucesso:', response);
-          // Lógica para redirecionar ou exibir mensagem de sucesso
-        },
-        error => {
-          console.error('Erro ao registrar usuário:', error);
-          // Lógica para exibir mensagem de erro
-        }
-      );
-  }
-
-    password!: string;
-
+        this.authService.registerUser(this.userData)
+            .subscribe(
+                response => {
+                    console.log('Usuário registrado com sucesso:', response);
+                    // Lógica para redirecionar ou exibir mensagem de sucesso
+                },
+                error => {
+                    console.error('Erro ao registrar usuário:', error);
+                    // Lógica para exibir mensagem de erro
+                }
+            );
+    }
 }

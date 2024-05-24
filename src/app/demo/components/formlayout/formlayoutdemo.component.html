@@ -1,32 +1,30 @@
 <div class="surface-ground flex align-items-center justify-content-center min-h-screen min-w-screen overflow-hidden">
-	<div class="col-12 md:col-6">
-		<div style="border-radius:56px; padding:0.3rem; background: linear-gradient(180deg, var(--primary-color) 10%, rgba(33, 150, 243, 0) 30%);">
-			<div class="w-full surface-card py-8 px-5 sm:px-8" style="border-radius:53px">
-					<div class="text-900 text-3xl font-medium mb-6 text-center">Cadastro de usuário!</div>
-					<div class="border-radius:56px; padding:1.0rem; background: linear-gradient(180deg, var(--primary-color) 10%, rgba(33, 150, 243, 0) 30%);">
-							<div class="p-fluid p-formgrid grid">
-								<div class="field col-12 md:col-6">
-									<label htmlFor="nome">Nome</label>
-									<input pInputText id="nome" type="text" />
-								</div>
-								<div class="field col-12 md:col-6">
-									<label htmlFor="sobrenome">Sobrenome</label>
-									<input pInputText id="sobrenome" type="text" />
-								</div>
-								<div class="field col-12">
-									<label htmlFor="email">E-mail</label>
-									<input pInputTextarea id="email" rows="4" />
-								</div>
-								<div class="field col-12 md:col-6">
-									<label htmlFor="city">Senha</label>
-									<p-password id="password1" [(ngModel)]="password" placeholder="Password" [toggleMask]="true" styleClass="mb-5" inputStyleClass="w-full p-3 md:w-30rem"></p-password>
-								</div>
-								<div class="field col-12 md:col-6">
-									<label htmlFor="tipo">Tipo</label>
-									<p-dropdown [options]="dropdownItems" optionLabel="name" [(ngModel)]="selectedState"></p-dropdown>
-								</div>
-								<button pButton label="Submit"></button>
-							</div>
-					</div>
-			</div>
-	</div>
+    <div class="col-12 md:col-6">
+        <div style="border-radius:56px; padding:0.3rem; background: linear-gradient(180deg, var(--primary-color) 10%, rgba(33, 150, 243, 0) 30%);">
+            <div class="w-full surface-card py-8 px-5 sm:px-8" style="border-radius:53px">
+                <div class="text-900 text-3xl font-medium mb-6 text-center">Cadastro de usuário!</div>
+                <div class="border-radius:56px; padding:1.0rem; background: linear-gradient(180deg, var(--primary-color) 10%, rgba(33, 150, 243, 0) 30%);">
+                    <div class="p-fluid p-formgrid grid">
+                        <div class="field col-12 md:col-6">
+                            <label for="name">Nome</label>
+                            <input pInputText id="name" type="text" [(ngModel)]="userData.name" />
+                        </div>
+                        <div class="field col-12">
+                            <label for="email">E-mail</label>
+                            <input pInputText id="email" type="email" [(ngModel)]="userData.email" />
+                        </div>
+                        <div class="field col-12 md:col-6">
+                            <label for="password">Senha</label>
+                            <p-password id="password" [(ngModel)]="password" placeholder="Password" [toggleMask]="true" styleClass="mb-5" inputStyleClass="w-full p-3 md:w-30rem"></p-password>
+                        </div>
+                        <div class="field col-12 md:col-6">
+                            <label for="type">Tipo</label>
+                            <p-dropdown [options]="dropdownItems" optionLabel="label" [(ngModel)]="selectedState"></p-dropdown>
+                        </div>
+                        <button pButton label="Submit" (click)="onSubmit()"></button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
