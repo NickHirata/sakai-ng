@@ -1,0 +1,28 @@
+{
+    "data": [
+        {
+            "task_id": 1,
+            "creation_date": "2023-01-10",
+            "deadline": "2023-02-10",
+            "description": "First Task Description",
+            "end_date": "2023-02-05",
+            "name": "Task One",
+            "last_update": "2023-02-01",
+            "status": "completed",
+            "project_id": 1,
+            "assigned_to": 1
+        },
+        {
+            "task_id": 2,
+            "creation_date": "2023-01-15",
+            "deadline": "2023-03-15",
+            "description": "Second Task Description",
+            "end_date": null,
+            "name": "Task Two",
+            "last_update": "2023-03-01",
+            "status": "ongoing",
+            "project_id": 2,
+            "assigned_to": 2
+        }
+    ]
+}

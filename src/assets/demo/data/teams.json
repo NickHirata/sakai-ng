@@ -1,0 +1,14 @@
+{
+    "data": [
+        {
+            "team_id": 1,
+            "name": "Team Alpha",
+            "project_id": 1
+        },
+        {
+            "team_id": 2,
+            "name": "Team Beta",
+            "project_id": 2
+        }
+    ]
+}

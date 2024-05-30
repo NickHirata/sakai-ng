@@ -1,5 +1,6 @@
 .customer-badge,
 .product-badge,
+.task-badge,
 .order-badge {
   border-radius: var(--border-radius);
   padding: 0.25em 0.5rem;
@@ -7,6 +8,28 @@
   font-weight: 700;
   font-size: 12px;
   letter-spacing: 0.3px;
+}
+
+.task-badge {
+    &.status-concluido {
+        background: #C8E6C9;
+        color: #256029;
+    }
+
+    &.status-aguardando {
+        background: #FFCDD2;
+        color: #C63737;
+    }
+
+    &.status-fazendo {
+        background: #FEEDAF;
+        color: #8a8740;
+    }
+
+    &.status-pendente {
+        background: #afcdfe;
+        color: #404f8a;
+    }
 }
 
 .product-badge.status-instock {

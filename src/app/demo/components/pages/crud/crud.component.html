@@ -15,14 +15,14 @@
                 </ng-template>
 
 
-                <p-dropdown 
-                [options]="projetos" 
-                [(ngModel)]="projetoSelecionado" 
-                optionLabel="name" 
+                <p-dropdown
+                [options]="projects"
+                [(ngModel)]="projetoSelecionado"
+                optionLabel="name"
                 placeholder="Selecione um projeto" />
             </p-toolbar>
 
-            <p-table #dt [value]="products" [columns]="cols" responsiveLayout="scroll" [rows]="10" [globalFilterFields]="['name','country.name','representative.name','status']" [paginator]="true" [rowsPerPageOptions]="[10,20,30]" [showCurrentPageReport]="true" currentPageReportTemplate="Showing {first} to {last} of {totalRecords} entries" [(selection)]="selectedProducts" selectionMode="multiple" [rowHover]="true" dataKey="id">
+            <p-table #dt [value]="tasks" [columns]="cols" responsiveLayout="scroll" [rows]="10" [globalFilterFields]="['name','country.name','representative.name','status']" [paginator]="true" [rowsPerPageOptions]="[10,20,30]" [showCurrentPageReport]="true" currentPageReportTemplate="Showing {first} to {last} of {totalRecords} entries" [(selection)]="selectedTasks" selectionMode="multiple" [rowHover]="true" dataKey="id">
                 <ng-template pTemplate="caption">
                     <div class="flex flex-column md:flex-row md:justify-content-between md:align-items-center">
                         <h5 class="m-0">Tarefas</h5>
@@ -38,38 +38,38 @@
                             <p-tableHeaderCheckbox></p-tableHeaderCheckbox>
                         </th>
                         <th pSortableColumn="name">Nome <p-sortIcon field="name"></p-sortIcon></th>
-                        <th pSortableColumn="category">Descrição <p-sortIcon field="category"></p-sortIcon></th>
-                        <th pSortableColumn="rating">Atribuído <p-sortIcon field="rating"></p-sortIcon></th>
-                        <th pSortableColumn="inventoryStatus">Status <p-sortIcon field="inventoryStatus"></p-sortIcon></th>
+                        <th pSortableColumn="description">Descrição <p-sortIcon field="description"></p-sortIcon></th>
+                        <th pSortableColumn="assignedTo">Atribuído <p-sortIcon field="assignedTo"></p-sortIcon></th>
+                        <th pSortableColumn="status">Status <p-sortIcon field="status"></p-sortIcon></th>
                         <th></th>
                     </tr>
                 </ng-template>
-                <ng-template pTemplate="body" let-product>
+                <ng-template pTemplate="body" let-task>
                     <tr>
                         <td>
-                            <p-tableCheckbox [value]="product"></p-tableCheckbox>
+                            <p-tableCheckbox [value]="task"></p-tableCheckbox>
                         </td>
                         <td style="width:14%; min-width:10rem;">
                             <span class="p-column-title">Nome</span>
-                            {{product.name}}
+                            {{task.name}}
                         </td>
                         <td style="width:14%; min-width:10rem;">
-                            <span class="p-column-title">Etiqueta</span>
-                            {{product.category}}
+                            <span class="p-column-title">Descrição</span>
+                            {{task.description}}
                         </td>
-                        <td style="width:14%; min-width: 10rem;"><span class="p-column-title">Dificuldade</span>
-                            {{product.category}}
+                        <td style="width:14%; min-width: 10rem;"><span class="p-column-title">Atribuído</span>
+                            {{task.assignedTo}}
                         </td>
                         <td style="width:14%; min-width: 10rem;"><span class="p-column-title">Status</span>
-                            <span [class]="'product-badge status-' + (product.inventoryStatus ? product.inventoryStatus.toLowerCase() : '')">{{product.inventoryStatus}}</span>
+                            <span [class]="'task-badge status-' + (task.status ? task.status.toLowerCase() : '')">{{task.status}}</span>
                         </td>
                         <td>
                             <div class="flex">
-                                <button pButton pRipple icon="pi pi-pencil" class="p-button-rounded p-button-success mr-2" (click)="editProduct(product)"></button>
+                                <button pButton pRipple icon="pi pi-pencil" class="p-button-rounded p-button-success mr-2" (click)="editTask(task)"></button>
                                 <button pButton pRipple icon="pi pi-play" class="p-button-rounded p-button-text" ></button>
                                 <button pButton pRipple icon="pi pi-pause" class="p-button-rounded p-button-text" ></button>
                                 <button pButton pRipple class="p-button-rounded p-button-warning" >Concluir</button>
-                                <!-- <button pButton pRipple icon="pi pi-trash" class="p-button-rounded p-button-warning" (click)="deleteProduct(product)"></button> -->
+                                <!-- <button pButton pRipple icon="pi pi-trash" class="p-button-rounded p-button-warning" (click)="deleteTask(task)"></button> -->
                             </div>
                         </td>
                     </tr>
@@ -79,68 +79,65 @@
 
         <p-dialog [(visible)]="tarefaDialog" [style]="{width: '450px'}" header="Detalhes da tarefa" [modal]="true" class="p-fluid">
             <ng-template pTemplate="content">
-                <!-- <img [src]="'assets/demo/images/product/' + product.image" [alt]="product.image" width="150" class="mt-0 mx-auto mb-5 block shadow-2" *ngIf="product.image"> -->
                 <div class="field">
                     <label for="name">Nome</label>
-                    <input type="text" pInputText id="name" [(ngModel)]="product.name" required autofocus [ngClass]="{'ng-invalid ng-dirty' : submitted && !product.name}"/>
-                    <small class="ng-dirty ng-invalid" *ngIf="submitted && !product.name">Name is required.</small>
+                    <input type="text" pInputText id="name" [(ngModel)]="task.name" required autofocus [ngClass]="{'ng-invalid ng-dirty' : submitted && !task.name}"/>
+                    <small class="ng-dirty ng-invalid" *ngIf="submitted && !task.name">Name is required.</small>
                 </div>
                 <div class="field">
                     <label for="description">Descrição</label>
-                    <textarea id="description" pInputTextarea [(ngModel)]="product.description" required rows="3" cols="20"></textarea>
+                    <textarea id="description" pInputTextarea [(ngModel)]="task.description" required rows="3" cols="20"></textarea>
                 </div>
                 <div class="field">
                     <label for="status">Status</label>
-                    <p-dropdown [(ngModel)]="product.inventoryStatus" inputId="inventoryStatus" optionValue="label" [options]="statuses" placeholder="Select">
+                    <p-dropdown [(ngModel)]="task.status" inputId="status" optionValue="label" [options]="statuses" placeholder="Select">
                         <ng-template pTemplate="selectedItem">
-                            <span *ngIf="product && product.inventoryStatus" [class]="'product-badge status-' + product.inventoryStatus.toString().toLowerCase()">{{product.inventoryStatus}}</span>
+                            <span *ngIf="task && task.status" [class]="'task-badge status-' + task.status.toString().toLowerCase()">{{task.status}}</span>
                         </ng-template>
                         <ng-template let-option pTemplate="item">
-                            <span [class]="'product-badge status-' + option.value">{{option.label}}</span>
+                            <span [class]="'task-badge status-' + option.value">{{option.label}}</span>
                         </ng-template>
                     </p-dropdown>
                 </div>
 
                 <div class="field">
                     <label class="mb-3">Prazo</label>
-                    
+
                     <div class="formgrid grid">
                         <div class="field col">
-                            <p-inputMask 
-                                [(ngModel)]="value" 
-                                mask="99/99/9999" 
-                                placeholder="99/99/9999" 
+                            <p-inputMask
+                                [(ngModel)]="task.deadline" inputId="deadline" optionValue="label"
+                                mask="99/99/9999"
+                                placeholder="99/99/9999"
                                 slotChar="dd/mm/yyyy" />
                         </div>
                     </div>
                 </div>
                 <div class="field">
                     <label class="mb-3">Atribuído à</label>
-
-                    
-                        <p-dropdown 
-                        [options]="projetos" 
-                        [(ngModel)]="projetoSelecionado" 
-                        optionLabel="name" 
+                        <p-dropdown
+                        [options]="users"
+                        [(ngModel)]="userSelecionado"
+                        optionLabel="name"
                         placeholder="Selecione membro da equipe" />
- 
+
                 </div>
 
                 <div class="formgrid grid">
                     <div class="field col">
-                        <label for="price">Data início</label>
-                        <p-inputMask 
-                        [(ngModel)]="value" 
-                        mask="99/99/9999" 
-                        placeholder="99/99/9999" 
+                        <label for="creation_date">Data início</label>
+                        <p-inputMask
+                        [(ngModel)]="task.creation_date"
+                        mask="99/99/9999"
+                        placeholder="99/99/9999"
                         slotChar="dd/mm/yyyy" />
                     </div>
                     <div class="field col">
-                        <label for="quantity">Data término</label>
-                        <p-inputMask 
-                        [(ngModel)]="value" 
-                        mask="99/99/9999" 
-                        placeholder="99/99/9999" 
+                        <label for="end_date">Data término</label>
+                        <p-inputMask
+                        [(ngModel)]="task.end_date"
+                        mask="99/99/9999"
+                        placeholder="99/99/9999"
                         slotChar="dd/mm/yyyy" />
                     </div>
                 </div>
@@ -148,7 +145,7 @@
 
             <ng-template pTemplate="footer">
                 <button pButton pRipple label="Cancel" icon="pi pi-times" class="p-button-text" (click)="hideDialog()"></button>
-                <button pButton pRipple label="Save" icon="pi pi-check" class="p-button-text" (click)="saveProduct()"></button>
+                <button pButton pRipple label="Save" icon="pi pi-check" class="p-button-text" (click)="savetask()"></button>
             </ng-template>
         </p-dialog>
 
@@ -159,78 +156,60 @@
             <ng-template pTemplate="content">
                 <div class="field">
                     <label for="name">Nome</label>
-                    <input type="text" pInputText id="name" [(ngModel)]="product.name" required autofocus [ngClass]="{'ng-invalid ng-dirty' : submitted && !product.name}"/>
-                    <small class="ng-dirty ng-invalid" *ngIf="submitted && !product.name">Name is required.</small>
+                    <input type="text" pInputText id="name" [(ngModel)]="task.name" required autofocus [ngClass]="{'ng-invalid ng-dirty' : submitted && !task.name}"/>
+                    <small class="ng-dirty ng-invalid" *ngIf="submitted && !task.name">Name is required.</small>
                 </div>
                 <div class="field">
                     <label for="description">Descrição</label>
-                    <textarea id="description" pInputTextarea [(ngModel)]="product.description" required rows="3" cols="20"></textarea>
+                    <textarea id="description" pInputTextarea [(ngModel)]="task.description" required rows="3" cols="20"></textarea>
                 </div>
-        
+
                 <div class="field">
                     <label class="mb-3">Relatado por</label>
-                        <p-dropdown 
-                        [options]="projetos" 
-                        [(ngModel)]="projetoSelecionado" 
-                        optionLabel="name" 
+                        <p-dropdown
+                        [options]="users"
+                        [(ngModel)]="userSelecionado"
+                        optionLabel="name"
                         placeholder="Selecione membro da equipe" />
                 </div>
                 <div class="field">
                     <label class="mb-3">Tarefa</label>
-                        <p-dropdown 
-                        [options]="projetos" 
-                        [(ngModel)]="projetoSelecionado" 
-                        optionLabel="name" 
+                        <p-dropdown
+                        [options]="tasks"
+                        [(ngModel)]="taskSelecionado"
+                        appendTo="body"
+                        optionLabel="name"
                         placeholder="Selecione a tarefa" />
                 </div>
-               
+
             </ng-template>
 
             <ng-template pTemplate="footer">
                 <button pButton pRipple label="Cancel" icon="pi pi-times" class="p-button-text" (click)="hideDialog()"></button>
-                <button pButton pRipple label="Save" icon="pi pi-check" class="p-button-text" (click)="saveProduct()"></button>
+                <button pButton pRipple label="Save" icon="pi pi-check" class="p-button-text" (click)="saveImpediment()"></button>
             </ng-template>
         </p-dialog>
 
 
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-        <p-dialog [(visible)]="deleteProductDialog" header="Confirm" [modal]="true" [style]="{width:'450px'}">
+        <p-dialog [(visible)]="deleteTaskDialog" header="Confirm" [modal]="true" [style]="{width:'450px'}">
             <div class="flex align-items-center justify-content-center">
                 <i class="pi pi-exclamation-triangle mr-3" style="font-size: 2rem"></i>
-                <span *ngIf="product">Are you sure you want to delete <b>{{product.name}}</b>?</span>
+                <span *ngIf="task">Are you sure you want to delete <b>{{task.name}}</b>?</span>
             </div>
             <ng-template pTemplate="footer">
-                <button pButton pRipple icon="pi pi-times" class="p-button-text" label="No" (click)="deleteProductDialog = false"></button>
+                <button pButton pRipple icon="pi pi-times" class="p-button-text" label="No" (click)="deleteTaskDialog = false"></button>
                 <button pButton pRipple icon="pi pi-check" class="p-button-text" label="Yes" (click)="confirmDelete()"></button>
             </ng-template>
         </p-dialog>
 
-        <p-dialog [(visible)]="deleteProductsDialog" header="Confirm" [modal]="true" [style]="{width:'450px'}">
+        <p-dialog [(visible)]="deleteTasksDialog" header="Confirm" [modal]="true" [style]="{width:'450px'}">
             <div class="flex align-items-center justify-content-center">
                 <i class="pi pi-exclamation-triangle mr-3" style="font-size: 2rem"></i>
-                <span>Are you sure you want to delete selected products?</span>
+                <span>Are you sure you want to delete selected tasks?</span>
             </div>
             <ng-template pTemplate="footer">
-                <button pButton pRipple icon="pi pi-times" class="p-button-text" label="No" (click)="deleteProductsDialog = false"></button>
+                <button pButton pRipple icon="pi pi-times" class="p-button-text" label="No" (click)="deleteTasksDialog = false"></button>
                 <button pButton pRipple icon="pi pi-check" class="p-button-text" label="Yes" (click)="confirmDeleteSelected()"></button>
             </ng-template>
         </p-dialog>

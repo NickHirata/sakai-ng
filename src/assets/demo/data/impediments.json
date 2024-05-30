@@ -1,0 +1,14 @@
+{
+    "data": [
+        {
+            "impediment_id": 1,
+            "description": "First Impediment Description",
+            "related_to": 1
+        },
+        {
+            "impediment_id": 2,
+            "description": "Second Impediment Description",
+            "related_to": 2
+        }
+    ]
+}

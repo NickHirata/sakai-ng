@@ -1,111 +1,127 @@
+import { ImpedimentService } from './../../../service/impediment.service';
+import { Impediment } from './../../../api/impediment';
+import { ProjectService } from './../../../service/project.service';
+import { User } from './../../../api/user';
+import { UserService } from './../../../service/user.service';
 import { Component, OnInit } from '@angular/core';
-import { Product } from 'src/app/demo/api/product';
 import { MessageService } from 'primeng/api';
 import { Table } from 'primeng/table';
-import { ProductService } from 'src/app/demo/service/product.service';
+import { Task } from 'src/app/demo/api/task'; // Importando o modelo de tarefa
+import { TaskService } from 'src/app/demo/service/task.service'; // Importando o serviço de tarefa
+import { Project } from 'src/app/demo/api/project';
+import { map, switchMap } from 'rxjs/operators';
+import { forkJoin } from 'rxjs';
+
 
 @Component({
     templateUrl: './crud.component.html',
     providers: [MessageService]
 })
 export class CrudComponent implements OnInit {
-
+    userSelecionado: any = null;
     projetoSelecionado: any = null;
-
-    projetos: any[] = [
-        {name: 'Projeto A', code: '1'},
-        {name: 'Projeto B', code: '2'},
-        {name: 'Projeto C', code: '3'},
-        {name: 'Projeto D', code: '4'},
-        {name: 'Projeto E', code: '5'}
-    ];
-
     dropdownItems = [
         { name: 'Administrador', code: 'a' },
         { name: 'Desenvolvedor', code: 'd' }
     ];
-
     tarefaDialog: boolean = false;
-
     impedimentoDialog: boolean = false;
-
-    deleteProductDialog: boolean = false;
-
-    deleteProductsDialog: boolean = false;
-
-    products: Product[] = [];
-
-    product: Product = {};
-
-    selectedProducts: Product[] = [];
-
+    deleteTasksDialog: boolean = false;
+    deleteTaskDialog: boolean = false;
+    tasks: Task[] = [];
+    impediments: Impediment[] = [];
+    users: User[] = [];
+    projects: Project[] = [];
+    task: Task = {};
+    impediment: Impediment = {};
+    project: Project = {};
+    selectedTasks: Task[] = [];
     submitted: boolean = false;
-
     cols: any[] = [];
-
     statuses: any[] = [];
-
     rowsPerPageOptions = [5, 10, 20];
 
-    constructor(private productService: ProductService, private messageService: MessageService) { }
+
+    constructor(private taskService: TaskService, private userService: UserService,
+         private projectService: ProjectService, private messageService: MessageService,
+        private ImpedimentService: ImpedimentService) { }
 
     ngOnInit() {
-        this.productService.getProducts().then(data => this.products = data);
+        this.userService.getUsers().subscribe(data => this.users = data);
+        this.projectService.getProjects().subscribe(data => this.projects = data);
+        this.taskService.getTasks().pipe(
+            switchMap(tasks => {
+                return forkJoin(tasks.map(task => {
+                    return this.userService.getUserById(task.assigned_to).pipe(
+                        map(user => {
+                            if (user) {
+                                task.assignedTo = user[0].name;
+                            }
+                            return task;
+                        })
+                    );
+                }));
+            })
+        ).subscribe(data => {
+            this.tasks = data;
+        });
 
         this.cols = [
-            { field: 'product', header: 'Product' },
-            { field: 'price', header: 'Price' },
-            { field: 'category', header: 'Category' },
-            { field: 'rating', header: 'Reviews' },
-            { field: 'inventoryStatus', header: 'Status' }
+            { field: 'name', header: 'Name' },
+            { field: 'description', header: 'Description' },
+            { field: 'status', header: 'Status' },
+            { field: 'assignedTo', header: 'Assigned To' },
+            { field: 'deadline', header: 'Deadline' }
         ];
 
         this.statuses = [
             { label: 'PENDENTE', value: 'pendente' },
-            { label: 'DESENVOLVIMENTO', value: 'desenvolvimento' },
+            { label: 'FAZENDO', value: 'fazendo' },
             { label: 'CONCLUIDO', value: 'concluido' },
             { label: 'AGUARDANDO', value: 'aguardando' }
         ];
-        
     }
 
+
     openTarefa() {
-        this.product = {};
+        this.task = {};
         this.submitted = false;
         this.tarefaDialog = true;
+
+
     }
     openImpedimento() {
-        this.product = {};
+        this.task = {};
         this.submitted = false;
         this.impedimentoDialog = true;
     }
 
-    deleteSelectedProducts() {
-        this.deleteProductsDialog = true;
+    deleteSelectedTasks() {
+        this.deleteTasksDialog = true;
     }
 
-    editProduct(product: Product) {
-        this.product = { ...product };
+    editTask(task: Task) {
+        this.task = { ...task };
         this.tarefaDialog = true;
     }
 
-    deleteProduct(product: Product) {
-        this.deleteProductDialog = true;
-        this.product = { ...product };
+    deleteTask(task: Task) {
+        this.deleteTaskDialog = true;
+        this.task = { ...task };
     }
 
     confirmDeleteSelected() {
-        this.deleteProductsDialog = false;
-        this.products = this.products.filter(val => !this.selectedProducts.includes(val));
-        this.messageService.add({ severity: 'success', summary: 'Successful', detail: 'Products Deleted', life: 3000 });
-        this.selectedProducts = [];
+        this.deleteTasksDialog = false;
+        this.tasks = this.tasks.filter(val => !this.selectedTasks.includes(val));
+        this.messageService.add({ severity: 'success', summary: 'Successful', detail: 'Tasks Deleted', life: 3000 });
+        this.selectedTasks = [];
     }
 
     confirmDelete() {
-        this.deleteProductDialog = false;
-        this.products = this.products.filter(val => val.id !== this.product.id);
-        this.messageService.add({ severity: 'success', summary: 'Successful', detail: 'Product Deleted', life: 3000 });
-        this.product = {};
+        this.deleteTaskDialog = false;
+        this.tasks = this.tasks.filter(val => val.id !== this.task.id);
+        this.messageService.add({ severity: 'success', summary: 'Successful', detail: 'Task Deleted', life: 3000 });
+        this.task = {};
     }
 
     hideDialog() {
@@ -113,35 +129,39 @@ export class CrudComponent implements OnInit {
         this.submitted = false;
     }
 
-    saveProduct() {
+    savetask() {
         this.submitted = true;
 
-        if (this.product.name?.trim()) {
-            if (this.product.id) {
-                // @ts-ignore
-                this.product.inventoryStatus = this.product.inventoryStatus.value ? this.product.inventoryStatus.value : this.product.inventoryStatus;
-                this.products[this.findIndexById(this.product.id)] = this.product;
-                this.messageService.add({ severity: 'success', summary: 'Successful', detail: 'Product Updated', life: 3000 });
+        if (this.task.name?.trim()) {
+            if (this.task.id) {
+                this.tasks[this.findIndexById(this.task.id)] = this.task;
+                this.messageService.add({ severity: 'success', summary: 'Successful', detail: 'Task Updated', life: 3000 });
             } else {
-                this.product.id = this.createId();
-                this.product.code = this.createId();
-                this.product.image = 'product-placeholder.svg';
-                // @ts-ignore
-                this.product.inventoryStatus = this.product.inventoryStatus ? this.product.inventoryStatus.value : 'INSTOCK';
-                this.products.push(this.product);
-                this.messageService.add({ severity: 'success', summary: 'Successful', detail: 'Product Created', life: 3000 });
+                this.task.id = this.createId();
+                this.tasks.push(this.task);
+                this.messageService.add({ severity: 'success', summary: 'Successful', detail: 'Task Created', life: 3000 });
             }
 
-            this.products = [...this.products];
+            this.tasks = [...this.tasks];
             this.tarefaDialog = false;
-            this.product = {};
+            this.task = {};
         }
     }
 
-    findIndexById(id: string): number {
+    saveImpediment(){
+        this.submitted = true;
+        this.impediment.id = this.createId();
+        this.impediments.push(this.impediment);
+        this.messageService.add({ severity: 'success', summary: 'Successful', detail: 'Impedidomento criado', life: 3000 });
+        this.impediments = [...this.impediments];
+        this.impedimentoDialog = false;
+        this.impediment = {};
+    }
+
+    findIndexById(id: number): number {
         let index = -1;
-        for (let i = 0; i < this.products.length; i++) {
-            if (this.products[i].id === id) {
+        for (let i = 0; i < this.tasks.length; i++) {
+            if (this.tasks[i].id === id) {
                 index = i;
                 break;
             }
@@ -150,16 +170,17 @@ export class CrudComponent implements OnInit {
         return index;
     }
 
-    createId(): string {
-        let id = '';
-        const chars = 'ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789';
-        for (let i = 0; i < 5; i++) {
-            id += chars.charAt(Math.floor(Math.random() * chars.length));
-        }
-        return id;
+    createId(): number {
+        const min = 10000; // Minimum 5-digit number
+        const max = 99999; // Maximum 5-digit number
+        return Math.floor(Math.random() * (max - min + 1)) + min;
     }
+
 
     onGlobalFilter(table: Table, event: Event) {
         table.filterGlobal((event.target as HTMLInputElement).value, 'contains');
     }
+
+
+
 }

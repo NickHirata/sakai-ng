@@ -1,0 +1,18 @@
+{
+    "data": [
+        {
+            "project_id": 1,
+            "creation_date": "2023-01-01",
+            "description": "First Project Description",
+            "name": "Project One",
+            "status": "ongoing"
+        },
+        {
+            "project_id": 2,
+            "creation_date": "2023-01-02",
+            "description": "Second Project Description",
+            "name": "Project Two",
+            "status": "completed"
+        }
+    ]
+}

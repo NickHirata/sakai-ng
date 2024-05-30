@@ -1,0 +1,20 @@
+{
+    "data": [
+        {
+            "user_id": 1,
+            "creation_date": "2023-01-01",
+            "email": "user1@example.com",
+            "name": "User One",
+            "password": "password123",
+            "type": "admin"
+        },
+        {
+            "user_id": 2,
+            "creation_date": "2023-01-02",
+            "email": "user2@example.com",
+            "name": "User Two",
+            "password": "password456",
+            "type": "member"
+        }
+    ]
+}
