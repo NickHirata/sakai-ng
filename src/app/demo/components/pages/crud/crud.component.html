@@ -39,7 +39,7 @@
                         </th>
                         <th pSortableColumn="name">Nome <p-sortIcon field="name"></p-sortIcon></th>
                         <th pSortableColumn="description">Descrição <p-sortIcon field="description"></p-sortIcon></th>
-                        <th pSortableColumn="assignedTo">Atribuído <p-sortIcon field="assignedTo"></p-sortIcon></th>
+                        <!-- <th pSortableColumn="assignedTo">Atribuído <p-sortIcon field="assignedTo"></p-sortIcon></th> -->
                         <th pSortableColumn="status">Status <p-sortIcon field="status"></p-sortIcon></th>
                         <th></th>
                     </tr>
@@ -57,9 +57,9 @@
                             <span class="p-column-title">Descrição</span>
                             {{task.description}}
                         </td>
-                        <td style="width:14%; min-width: 10rem;"><span class="p-column-title">Atribuído</span>
+                        <!-- <td style="width:14%; min-width: 10rem;"><span class="p-column-title">Atribuído</span>
                             {{task.assignedTo}}
-                        </td>
+                        </td> -->
                         <td style="width:14%; min-width: 10rem;"><span class="p-column-title">Status</span>
                             <span [class]="'task-badge status-' + (task.status ? task.status.toLowerCase() : '')">{{task.status}}</span>
                         </td>

@@ -1,12 +1,12 @@
 export interface Task {
     taskId?: number;
+    name?: string;
+    description?: string;
     creationDate?: Date;
     deadline?: Date;
-    description?: string;
-    // end_date?: Date;
-    name?: string;
-    // last_update?: Date;
+    end_date?: Date;
+    last_update?: Date;
     status?: string;
-    // project_id?: number;
-    // assigned_to?: number;
+    project_id?: number;
+    assigned_to?: number;
 }

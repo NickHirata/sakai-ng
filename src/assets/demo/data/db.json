@@ -71,52 +71,36 @@
     ],
     "tasks": [
       {
-        "task_id": 1,
-        "creation_date": "01-10-2023",
-        "deadline": "02-102023",
-        "description": "First Task Description",
-        "end_date": "02-05-2023",
-        "name": "Task One",
-        "last_update": "02-01-2023",
-        "status": "concluido",
-        "project_id": 1,
-        "assigned_to": 1
+        "taskId": 1,
+        "name": "Nova Tarefa 6",
+        "description": "Descrição da nova tarefa",
+        "creationDate": "2024-06-01",
+        "deadline": "2024-06-15",
+        "status": "Pendente"
       },
       {
-        "task_id": 2,
-        "creation_date": "01-15-2023",
-        "deadline": "03-15-2023",
-        "description": "Second Task Description",
-        "end_date": null,
-        "name": "Task Two",
-        "last_update": "03-01-2023",
-        "status": "fazendo",
-        "project_id": 2,
-        "assigned_to": 2
+        "taskId": 2,
+        "name": "Tarefa Atualizada",
+        "description": "Descrição atualizada da tarefa",
+        "creationDate": "2024-06-01",
+        "deadline": "2024-06-20",
+        "status": "Concluído"
       },
       {
-        "task_id": 3,
-        "creation_date": "01-15-2023",
-        "deadline": "03-15-2023",
-        "description": "Third Task Description",
-        "end_date": null,
-        "name": "Task Three",
-        "last_update": "03-01-2023",
-        "status": "pendente",
-        "project_id": 3,
-        "assigned_to": 2
+        "taskId": 3,
+        "name": "Nova Tarefa 1",
+        "description": "Descrição da nova tarefa",
+        "creationDate": "2024-06-01",
+        "deadline": "2024-06-15",
+        "status": "Pendente"
       },
       {
-        "task_id": 4,
-        "creation_date": "01-15-2023",
-        "deadline": "03-15-2023",
-        "description": "Fourth Task Description",
-        "end_date": null,
-        "name": "Task Four",
-        "last_update": "03-01-2023",
-        "status": "aguardando",
-        "project_id": 4,
-        "assigned_to": 2
+        "taskId": 4,
+        "name": "Nova Tarefa 5",
+        "description": "Descrição da nova tarefa",
+        "creationDate": "2024-06-01",
+        "deadline": "2024-06-15",
+        "status": "Pendente"
       }
     ],
     "impediments": [

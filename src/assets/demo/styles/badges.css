@@ -11,7 +11,7 @@
 }
 
 .task-badge {
-    &.status-concluido {
+    &.status-concluído {
         background: #C8E6C9;
         color: #256029;
     }

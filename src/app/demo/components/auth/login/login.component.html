@@ -5,7 +5,6 @@
             <div class="w-full surface-card py-8 px-5 sm:px-8" style="border-radius:53px">
                 <div class="text-center mb-5">
                     <img src="assets/demo/images/login/avatar.png" alt="Image" height="50" class="mb-3">
-                    <div class="text-900 text-3xl font-medium mb-3">Welcome, Isabel!</div>
                     <span class="text-600 font-medium">Sign in to continue</span>
                 </div>
 
@@ -23,7 +22,7 @@
                         </div>
                         <a class="font-black no-underline ml-2 text-right cursor-pointer" style="color: var(--primary-color)" [routerLink]="['/formlayout']">Não tem cadastro?</a>
                     </div>
-                    <button pButton pRipple label="Sign In" class="w-full p-3 text-xl" [routerLink]="['/']"></button>
+                    <button pButton pRipple label="Sign In" class="w-full p-3 text-xl" (click)="login()"></button>
                     
                 </div>
             </div>
