@@ -4,11 +4,19 @@ import { Product } from '../../api/product';
 import { ProductService } from '../../service/product.service';
 import { Subscription, debounceTime } from 'rxjs';
 import { LayoutService } from 'src/app/layout/service/app.layout.service';
+import { Impediment } from '../../api/impediment';
+import { Project } from '../../api/project';
+import { ProjectService } from '../../service/project.service';
+import { ImpedimentService } from '../../service/impediment.service';
 
 @Component({
     templateUrl: './dashboard.component.html',
 })
 export class DashboardComponent implements OnInit, OnDestroy {
+    impediments: Impediment[] = [];
+    impediment: Impediment = {};
+    projects: Project[] = [];
+    project: Project = {};
 
     items!: MenuItem[];
 
@@ -20,7 +28,9 @@ export class DashboardComponent implements OnInit, OnDestroy {
 
     subscription!: Subscription;
 
-    constructor(private productService: ProductService, public layoutService: LayoutService) {
+    constructor(private productService: ProductService, public layoutService: LayoutService,
+        private projectService: ProjectService, private impedimentService: ImpedimentService
+    ) {
         this.subscription = this.layoutService.configUpdate$
         .pipe(debounceTime(25))
         .subscribe((config) => {
@@ -31,6 +41,11 @@ export class DashboardComponent implements OnInit, OnDestroy {
     ngOnInit() {
         this.initChart();
         this.productService.getProductsSmall().then(data => this.products = data);
+        this.projectService.getProjects().subscribe(data => this.projects = data);
+        this.impedimentService.getImpediments().subscribe(data => {
+            this.impediments = data;
+            console.log(this.impediments);  // Adicione esta linha para verificar os dados no console
+        })
 
         this.items = [
             { label: 'Add New', icon: 'pi pi-fw pi-plus' },

@@ -119,7 +119,7 @@ export class CrudComponent implements OnInit {
 
     confirmDelete() {
         this.deleteTaskDialog = false;
-        this.tasks = this.tasks.filter(val => val.id !== this.task.id);
+        this.tasks = this.tasks.filter(val => val.taskId !== this.task.taskId);
         this.messageService.add({ severity: 'success', summary: 'Successful', detail: 'Task Deleted', life: 3000 });
         this.task = {};
     }
@@ -133,11 +133,11 @@ export class CrudComponent implements OnInit {
         this.submitted = true;
 
         if (this.task.name?.trim()) {
-            if (this.task.id) {
-                this.tasks[this.findIndexById(this.task.id)] = this.task;
+            if (this.task.taskId) {
+                this.tasks[this.findIndexById(this.task.taskId)] = this.task;
                 this.messageService.add({ severity: 'success', summary: 'Successful', detail: 'Task Updated', life: 3000 });
             } else {
-                this.task.id = this.createId();
+                this.task.taskId = this.createId();
                 this.tasks.push(this.task);
                 this.messageService.add({ severity: 'success', summary: 'Successful', detail: 'Task Created', life: 3000 });
             }
@@ -161,7 +161,7 @@ export class CrudComponent implements OnInit {
     findIndexById(id: number): number {
         let index = -1;
         for (let i = 0; i < this.tasks.length; i++) {
-            if (this.tasks[i].id === id) {
+            if (this.tasks[i].taskId === id) {
                 index = i;
                 break;
             }
