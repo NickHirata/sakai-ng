@@ -21,21 +21,30 @@ export class LoginComponent {
     email: string = '';
     password: string = '';
     valCheck: string[] = ['remember'];
+    error: string = ''; 
   
     constructor(public layoutService: LayoutService, private loginService: LoginService, private router: Router) { }
   
     login() {
       this.loginService.login(this.email, this.password).subscribe(
-        (response) => {
-          this.user = response; 
-          this.router.navigate(['/dashboard']);
-        },
-        (error) => {
-          console.error('Erro ao autenticar:', error);
-        }
+          (response) => {
+              if (response) {
+                  this.user = response; 
+                  console.log(this.user);
+                  this.router.navigate(['/']);
+              } else {
+                this.error = 'Credenciais incorretas';
+              }
+          },
+          (error) => {
+              console.error('Erro ao autenticar:', error);
+              this.error = 'Erro ao autenticar';
+          }
       );
-    }
-
+  }
+  clearError() {
+    this.error = ''; // Limpa a mensagem de erro
+}
 
 
 }

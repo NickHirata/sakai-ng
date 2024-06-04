@@ -10,10 +10,12 @@
 
                 <div>
                     <label for="email1" class="block text-900 text-xl font-medium mb-2">Email</label>
-                    <input id="email1" type="text" placeholder="Email address" pInputText class="w-full md:w-30rem mb-5" style="padding:1rem">
+                    <input id="email1" [(ngModel)]="email" type="text" placeholder="Email address" pInputText class="w-full md:w-30rem mb-5" style="padding:1rem" (click)="clearError()">
 
                     <label for="password1" class="block text-900 font-medium text-xl mb-2">Password</label>
-                    <p-password id="password1" [(ngModel)]="password" placeholder="Password" [toggleMask]="true" styleClass="mb-5" inputStyleClass="w-full p-3 md:w-30rem"></p-password>
+                    <p-password id="password1" [(ngModel)]="password" placeholder="Password" [toggleMask]="true" styleClass="mb-5" inputStyleClass="w-full p-3 md:w-30rem" [feedback]="false"></p-password>
+                    
+                    <div *ngIf="error" class="text-red-600 mb-2">{{ error }}</div>
 
                     <div class="flex align-items-center justify-content-between mb-5 gap-5">
                         <div class="flex align-items-center">

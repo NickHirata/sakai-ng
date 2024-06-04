@@ -1,39 +1,39 @@
 import { Injectable } from '@angular/core';
 import { HttpClient, HttpErrorResponse } from '@angular/common/http';
-import { Observable, throwError } from 'rxjs';
-import { catchError } from 'rxjs/operators';
+import { Observable, of, throwError } from 'rxjs';
+import { catchError, map } from 'rxjs/operators';
 import { User } from '../api/user'; 
 
 @Injectable({
   providedIn: 'root'
 })
 export class LoginService {
-  private baseUrl = 'https://sistemagerenciamento-nbay.onrender.com/auth/login';
+  // private baseUrl = 'https://sistemagerenciamento-nbay.onrender.com/auth/login';
+  private baseUrl = 'http://localhost:3000/users';
 
+  user: User = {};
   constructor(private http: HttpClient) { }
 
-  login(email: string, password: string): Observable<User> {
-    return this.http.post<User>(this.baseUrl, { email, password }).pipe(
-      catchError((error: HttpErrorResponse) => {
-        if (error.status === 400) {
-          // Redirecionar para tela de erro 400
-          console.error('Erro 400 - Requisição inválida:', error);
-          //this.router.navigate(['/error400']);
-        } else if (error.status === 401) {
-          // Redirecionar para tela de erro 401
-          console.error('Erro 401 - Não autorizado:', error);
-          //this.router.navigate(['/error401']);
-        } else if (error.status === 500) {
-          // Redirecionar para tela de erro 500
-          console.error('Erro 500 - Erro interno do servidor:', error);
-          //this.router.navigate(['/error500']);
+  login(email: string, password: string): Observable<User | null> {
+    return this.http.get<User[]>(this.baseUrl).pipe(
+      map(users => {
+        const user = users.find(u => u.email === email && u.password === password);
+        if (user) {
+          return user;
         } else {
-          // Outros códigos de erro
-          console.error('Erro desconhecido:', error);
-          //this.router.navigate(['/error']);
+          return null;
         }
-        return throwError(error);
+      }),
+      catchError((error: HttpErrorResponse) => {
+        console.error('Erro ao buscar usuários:', error);
+        return of(null);
       })
     );
   }
+
+  isAuthenticated(): boolean {
+    return !!this.user; 
+  }
+  
+
 }
