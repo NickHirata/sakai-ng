@@ -3,17 +3,17 @@
       {
         "user_id": 1,
         "creation_date": "01-01-2023",
-        "email": "user1@example.com",
+        "email": "user1",
         "name": "User One",
-        "password": "password123",
+        "password": "123",
         "type": "administrador"
       },
       {
         "user_id": 2,
         "creation_date": "01-02-2023",
-        "email": "user2@example.com",
+        "email": "user2",
         "name": "User Two",
-        "password": "password456",
+        "password": "456",
         "type": "desenvolvedor"
       }
     ],
