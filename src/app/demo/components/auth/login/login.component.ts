@@ -1,4 +1,7 @@
 import { Component } from '@angular/core';
+import { Router } from '@angular/router';
+import { User } from 'src/app/demo/api/user';
+import { LoginService } from 'src/app/demo/service/login.service';
 import { LayoutService } from 'src/app/layout/service/app.layout.service';
 
 @Component({
@@ -14,10 +17,34 @@ import { LayoutService } from 'src/app/layout/service/app.layout.service';
     `]
 })
 export class LoginComponent {
-
+    user: User = {}; 
+    email: string = '';
+    password: string = '';
     valCheck: string[] = ['remember'];
+    error: string = ''; 
+  
+    constructor(public layoutService: LayoutService, private loginService: LoginService, private router: Router) { }
+  
+    login() {
+      this.loginService.login(this.email, this.password).subscribe(
+          (response) => {
+              if (response) {
+                  this.user = response; 
+                  console.log(this.user);
+                  this.router.navigate(['/dashboard']);
+              } else {
+                this.error = 'Credenciais incorretas';
+              }
+          },
+          (error) => {
+              console.error('Erro ao autenticar:', error);
+              this.error = 'Erro ao autenticar';
+          }
+      );
+  }
+  clearError() {
+    this.error = ''; // Limpa a mensagem de erro
+}
 
-    password!: string;
 
-    constructor(public layoutService: LayoutService) { }
 }

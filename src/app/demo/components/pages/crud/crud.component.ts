@@ -49,22 +49,7 @@ export class CrudComponent implements OnInit {
     ngOnInit() {
         this.userService.getUsers().subscribe(data => this.users = data);
         this.projectService.getProjects().subscribe(data => this.projects = data);
-        this.taskService.getTasks().pipe(
-            switchMap(tasks => {
-                return forkJoin(tasks.map(task => {
-                    return this.userService.getUserById(task.assigned_to).pipe(
-                        map(user => {
-                            if (user) {
-                                task.assignedTo = user[0].name;
-                            }
-                            return task;
-                        })
-                    );
-                }));
-            })
-        ).subscribe(data => {
-            this.tasks = data;
-        });
+        this.taskService.getTasks().subscribe(data => this.tasks = data);
 
         this.cols = [
             { field: 'name', header: 'Name' },
@@ -77,7 +62,7 @@ export class CrudComponent implements OnInit {
         this.statuses = [
             { label: 'PENDENTE', value: 'pendente' },
             { label: 'FAZENDO', value: 'fazendo' },
-            { label: 'CONCLUIDO', value: 'concluido' },
+            { label: 'CONCLUÍDO', value: 'concluído' },
             { label: 'AGUARDANDO', value: 'aguardando' }
         ];
     }
@@ -138,8 +123,10 @@ export class CrudComponent implements OnInit {
                 this.messageService.add({ severity: 'success', summary: 'Successful', detail: 'Task Updated', life: 3000 });
             } else {
                 this.task.taskId = this.createId();
-                this.tasks.push(this.task);
-                this.messageService.add({ severity: 'success', summary: 'Successful', detail: 'Task Created', life: 3000 });
+                this.taskService.addTask(this.task).subscribe((newTask: Task) => {
+                    this.tasks.push(newTask);
+                    this.messageService.add({ severity: 'success', summary: 'Successful', detail: 'Task Created', life: 3000 });
+                });
             }
 
             this.tasks = [...this.tasks];
@@ -147,6 +134,7 @@ export class CrudComponent implements OnInit {
             this.task = {};
         }
     }
+
 
     saveImpediment(){
         this.submitted = true;
@@ -158,16 +146,21 @@ export class CrudComponent implements OnInit {
         this.impediment = {};
     }
 
-    findIndexById(id: number): number {
-        let index = -1;
-        for (let i = 0; i < this.tasks.length; i++) {
-            if (this.tasks[i].taskId === id) {
-                index = i;
-                break;
-            }
-        }
+    // findIndexById(id: number): number {
+    //     let index = -1;
+    //     for (let i = 0; i < this.tasks.length; i++) {
+    //         if (this.tasks[i].taskId === id) {
+    //             index = i;
+    //             break;
+    //         }
+    //     }
 
-        return index;
+    //     return index;
+    // }
+
+    
+    findIndexById(id: number): number {
+        return this.tasks.findIndex(task => task.taskId === id);
     }
 
     createId(): number {

@@ -44,7 +44,6 @@ export class DashboardComponent implements OnInit, OnDestroy {
         this.projectService.getProjects().subscribe(data => this.projects = data);
         this.impedimentService.getImpediments().subscribe(data => {
             this.impediments = data;
-            console.log(this.impediments);  // Adicione esta linha para verificar os dados no console
         })
 
         this.items = [
