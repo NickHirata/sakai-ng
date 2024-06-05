@@ -31,7 +31,7 @@ export class LoginComponent {
               if (response) {
                   this.user = response; 
                   console.log(this.user);
-                  this.router.navigate(['/']);
+                  this.router.navigate(['/dashboard']);
               } else {
                 this.error = 'Credenciais incorretas';
               }
