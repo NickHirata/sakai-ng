@@ -18,6 +18,10 @@ export class TaskService {
   getTaskById(taskId: number): Observable<any> {
     return this.http.get<any>(`${this.baseUrl}?task_id=${taskId}`);
   }
+
+  getTasksByProject(id: number): Observable<any[]> {
+    return this.http.get<any[]>(`${this.baseUrl}?project_id=${id}`);
+  }
   // Método para adicionar uma nova tarefa
   addTask(task: any): Observable<any> {
     return this.http.post<any>(this.baseUrl, task);

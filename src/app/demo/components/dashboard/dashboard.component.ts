@@ -48,21 +48,21 @@ export class DashboardComponent implements OnInit, OnDestroy {
         this.items = [
             { label: 'Add New', icon: 'pi pi-fw pi-plus', command: () => this.openImpedimento() }
         ];
-
-        this.taskName$ = this.getTaskName(this.impediment.task_id);
         this.taskService.getTasks().subscribe(data => {
             this.tasks = data;
             this.calcularQuantidades();
         });
     }
-    getTaskName(taskId: number): Observable<string | null> {
-        return this.taskService.getTaskById(taskId);
+    getTaskName(taskId: number): string {
+        const task = this.tasks.find(task => task.task_id === taskId);
+        return task ? task.name : 'Tarefa não encontrada';
     }
+    
 
     calcularQuantidades() {
-        this.qtdConcluido = this.tasks.filter(task => task.status === 'Concluído').length;
-        this.qtdDesenvolvimento = this.tasks.filter(task => task.status === 'FAZENDO').length;
-        this.qtdPendente = this.tasks.filter(task => task.status === 'Pendente').length;
+        this.qtdConcluido = this.tasks.filter(task => task.status.toLowerCase() === 'concluído').length;
+        this.qtdDesenvolvimento = this.tasks.filter(task => task.status.toLowerCase() === 'desenvolvendo').length;
+        this.qtdPendente = this.tasks.filter(task => task.status.toLowerCase() === 'pendente').length;
     }
 
     openImpedimento() {

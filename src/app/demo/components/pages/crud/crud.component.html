@@ -4,77 +4,98 @@
             <p-toast></p-toast>
             <p-toolbar styleClass="mb-4">
                 <ng-template pTemplate="center">
-                    <div class="my-2">
+                    <div class="my-2" *ngIf="projetoSelecionado && projetoSelecionado.project_id">
                         <button pButton pRipple label="Adicionar impedimento" icon="pi pi-plus" class="p-button-warning mr-2" (click)="openImpedimento()"></button>
                     </div>
                 </ng-template>
                 <ng-template pTemplate="right">
-                    <div class="my-2">
+                    <div class="my-2" *ngIf="projetoSelecionado && projetoSelecionado.project_id">
                         <button pButton pRipple label="Adicionar tarefa" icon="pi pi-plus" class="p-button-success mr-2" (click)="openTarefa()"></button>
                     </div>
                 </ng-template>
-
-
+            
                 <p-dropdown
-                [options]="projects"
-                [(ngModel)]="projetoSelecionado"
-                optionLabel="name"
-                placeholder="Selecione um projeto" />
+                    [options]="projects"
+                    [(ngModel)]="projetoSelecionado"
+                    optionLabel="name"
+                    placeholder="Selecione um projeto"
+                    (onChange)="onProjectChange($event)"/>
             </p-toolbar>
+            
+            
 
-            <p-table #dt [value]="tasks" [columns]="cols" responsiveLayout="scroll" [rows]="10" [globalFilterFields]="['name','country.name','representative.name','status']" [paginator]="true" [rowsPerPageOptions]="[10,20,30]" [showCurrentPageReport]="true" currentPageReportTemplate="Showing {first} to {last} of {totalRecords} entries" [(selection)]="selectedTasks" selectionMode="multiple" [rowHover]="true" dataKey="id">
+            <div>
+
+              
+              <p-table
+                #dt
+                [value]="tasks"
+                [columns]="cols"
+                responsiveLayout="scroll"
+                [rows]="10"
+                [globalFilterFields]="['name','description','status']"
+                [paginator]="true"
+                [rowsPerPageOptions]="[10, 20, 30]"
+                [showCurrentPageReport]="true"
+                currentPageReportTemplate="Mostrando {first} a {last} de {totalRecords} entradas"
+                [(selection)]="selectedTasks"
+                selectionMode="multiple"
+                [rowHover]="true"
+                dataKey="id"
+              >
                 <ng-template pTemplate="caption">
-                    <div class="flex flex-column md:flex-row md:justify-content-between md:align-items-center">
-                        <h5 class="m-0">Tarefas</h5>
-                        <span class="block mt-2 md:mt-0 p-input-icon-left">
-                            <i class="pi pi-search"></i>
-                            <input pInputText type="text" (input)="onGlobalFilter(dt, $event)" placeholder="Search..."  class="w-full sm:w-auto"/>
-                        </span>
-                    </div>
+                  <div class="flex flex-column md:flex-row md:justify-content-between md:align-items-center">
+                    <h5 class="m-0">Tarefas</h5>
+                    <span class="block mt-2 md:mt-0 p-input-icon-left">
+                      <i class="pi pi-search"></i>
+                      <input pInputText type="text" (input)="onGlobalFilter(dt, $event)" placeholder="Search..." class="w-full sm:w-auto" />
+                    </span>
+                  </div>
                 </ng-template>
                 <ng-template pTemplate="header">
-                    <tr>
-                        <th style="width: 3rem">
-                            <p-tableHeaderCheckbox></p-tableHeaderCheckbox>
-                        </th>
-                        <th pSortableColumn="name">Nome <p-sortIcon field="name"></p-sortIcon></th>
-                        <th pSortableColumn="description">Descrição <p-sortIcon field="description"></p-sortIcon></th>
-                        <!-- <th pSortableColumn="assignedTo">Atribuído <p-sortIcon field="assignedTo"></p-sortIcon></th> -->
-                        <th pSortableColumn="status">Status <p-sortIcon field="status"></p-sortIcon></th>
-                        <th></th>
-                    </tr>
+                  <tr>
+                    <th style="width: 3rem">
+                      <p-tableHeaderCheckbox></p-tableHeaderCheckbox>
+                    </th>
+                    <th pSortableColumn="name">Nome <p-sortIcon field="name"></p-sortIcon></th>
+                    <th pSortableColumn="description">Descrição <p-sortIcon field="description"></p-sortIcon></th>
+                    <th pSortableColumn="status">Status <p-sortIcon field="status"></p-sortIcon></th>
+                    <th></th>
+                  </tr>
                 </ng-template>
                 <ng-template pTemplate="body" let-task>
-                    <tr>
-                        <td>
-                            <p-tableCheckbox [value]="task"></p-tableCheckbox>
-                        </td>
-                        <td style="width:14%; min-width:10rem;">
-                            <span class="p-column-title">Nome</span>
-                            {{task.name}}
-                        </td>
-                        <td style="width:14%; min-width:10rem;">
-                            <span class="p-column-title">Descrição</span>
-                            {{task.description}}
-                        </td>
-                        <!-- <td style="width:14%; min-width: 10rem;"><span class="p-column-title">Atribuído</span>
-                            {{task.assignedTo}}
-                        </td> -->
-                        <td style="width:14%; min-width: 10rem;"><span class="p-column-title">Status</span>
-                            <span [class]="'task-badge status-' + (task.status ? task.status.toLowerCase() : '')">{{task.status}}</span>
-                        </td>
-                        <td>
-                            <div class="flex">
-                                <button pButton pRipple icon="pi pi-pencil" class="p-button-rounded p-button-success mr-2" (click)="editTask(task)"></button>
-                                <button pButton pRipple icon="pi pi-play" class="p-button-rounded p-button-text" ></button>
-                                <button pButton pRipple icon="pi pi-pause" class="p-button-rounded p-button-text" ></button>
-                                <button pButton pRipple class="p-button-rounded p-button-warning" >Concluir</button>
-                                <!-- <button pButton pRipple icon="pi pi-trash" class="p-button-rounded p-button-warning" (click)="deleteTask(task)"></button> -->
-                            </div>
-                        </td>
-                    </tr>
+                  <tr>
+                    <td>
+                      <p-tableCheckbox [value]="task"></p-tableCheckbox>
+                    </td>
+                    <td style="width:14%; min-width:10rem;">
+                      <span class="p-column-title">Nome</span>
+                      {{ task.name }}
+                    </td>
+                    <td style="width:14%; min-width:10rem;">
+                      <span class="p-column-title">Descrição</span>
+                      {{ task.description }}
+                    </td>
+                    <td style="width:14%; min-width:10rem;">
+                      <span class="p-column-title">Status</span>
+                      <span [class]="'task-badge status-' + (task.status ? task.status.toLowerCase() : '')">{{ task.status }}</span>
+                    </td>
+                    <td>
+                      <div class="flex">
+                        <button pButton pRipple icon="pi pi-pencil" class="p-button-rounded p-button-success mr-2" (click)="editTask(task)"></button>
+                        <button pButton pRipple icon="pi pi-play" class="p-button-rounded p-button-text"></button>
+                        <button pButton pRipple icon="pi pi-pause" class="p-button-rounded p-button-text"></button>
+                        <button pButton pRipple class="p-button-rounded p-button-warning">Concluir</button>
+                      </div>
+                    </td>
+                  </tr>
                 </ng-template>
-            </p-table>
+              </p-table>
+              
+              <ng-template #noTasks>
+                <p>Nenhuma tarefa encontrada para o projeto selecionado.</p>
+              </ng-template>
+              
         </div>
 
         <p-dialog [(visible)]="tarefaDialog" [style]="{width: '450px'}" header="Detalhes da tarefa" [modal]="true" class="p-fluid">
@@ -82,18 +103,20 @@
                 <div class="field">
                     <label for="name">Nome</label>
                     <input type="text" pInputText id="name" [(ngModel)]="task.name" required autofocus [ngClass]="{'ng-invalid ng-dirty' : submitted && !task.name}"/>
-                    <small class="ng-dirty ng-invalid" *ngIf="submitted && !task.name">Name is required.</small>
+                    <small class="ng-dirty ng-invalid" *ngIf="submitted && !task.name">Nome é obrigatório.</small>
                 </div>
                 <div class="field">
                     <label for="description">Descrição</label>
                     <textarea id="description" pInputTextarea [(ngModel)]="task.description" required rows="3" cols="20"></textarea>
+                    <small class="ng-dirty ng-invalid" *ngIf="submitted && !task.description">Descrição é obrigatório.</small>
                 </div>
                 <div class="field">
                     <label for="status">Status</label>
                     <p-dropdown [(ngModel)]="task.status" inputId="status" optionValue="label" [options]="statuses" placeholder="Select">
                         <ng-template pTemplate="selectedItem">
-                            <span *ngIf="task && task.status" [class]="'task-badge status-' + task.status.toString().toLowerCase()">{{task.status}}</span>
+                            <span *ngIf="task && task.status" [class]="'task-badge status-' + task.status.toString().toLowerCase()">{{task.status.toString().toLowerCase()}}</span>
                         </ng-template>
+                        <small class="ng-dirty ng-invalid" *ngIf="submitted && !task.status">Status é obrigatório.</small>
                         <ng-template let-option pTemplate="item">
                             <span [class]="'task-badge status-' + option.value">{{option.label}}</span>
                         </ng-template>
@@ -155,22 +178,8 @@
         <p-dialog [(visible)]="impedimentoDialog" [style]="{width: '450px'}" header="Detalhes do impedimento" [modal]="true" class="p-fluid">
             <ng-template pTemplate="content">
                 <div class="field">
-                    <label for="name">Nome</label>
-                    <input type="text" pInputText id="name" [(ngModel)]="task.name" required autofocus [ngClass]="{'ng-invalid ng-dirty' : submitted && !task.name}"/>
-                    <small class="ng-dirty ng-invalid" *ngIf="submitted && !task.name">Name is required.</small>
-                </div>
-                <div class="field">
                     <label for="description">Descrição</label>
-                    <textarea id="description" pInputTextarea [(ngModel)]="task.description" required rows="3" cols="20"></textarea>
-                </div>
-
-                <div class="field">
-                    <label class="mb-3">Relatado por</label>
-                        <p-dropdown
-                        [options]="users"
-                        [(ngModel)]="userSelecionado"
-                        optionLabel="name"
-                        placeholder="Selecione membro da equipe" />
+                    <textarea id="description" pInputTextarea [(ngModel)]="impediment.description" required rows="3" cols="20"></textarea>
                 </div>
                 <div class="field">
                     <label class="mb-3">Tarefa</label>
@@ -179,7 +188,8 @@
                         [(ngModel)]="taskSelecionado"
                         appendTo="body"
                         optionLabel="name"
-                        placeholder="Selecione a tarefa" />
+                        placeholder="Selecione a tarefa" 
+                        (onChange)="onTaskSelect($event)"/>
                 </div>
 
             </ng-template>

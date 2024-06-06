@@ -6,10 +6,11 @@ import { UserService } from './../../../service/user.service';
 import { Component, OnInit } from '@angular/core';
 import { MessageService } from 'primeng/api';
 import { Table } from 'primeng/table';
-import { Task } from 'src/app/demo/api/task'; // Importando o modelo de tarefa
-import { TaskService } from 'src/app/demo/service/task.service'; // Importando o serviço de tarefa
+import { Task } from 'src/app/demo/api/task'; 
+import { TaskService } from 'src/app/demo/service/task.service'; 
 import { Project } from 'src/app/demo/api/project';
 import { Observable, Subscription } from 'rxjs';
+import { getLocaleDateFormat } from '@angular/common';
 
 
 @Component({
@@ -17,8 +18,9 @@ import { Observable, Subscription } from 'rxjs';
     providers: [MessageService]
 })
 export class CrudComponent implements OnInit {
-    userSelecionado: any = null;
-    projetoSelecionado: any = null;
+    userSelecionado: User = {};
+    projetoSelecionado: Project = {};
+    taskSelecionado: Task = {};
     dropdownItems = [
         { name: 'Administrador', code: 'a' },
         { name: 'Desenvolvedor', code: 'd' }
@@ -40,7 +42,7 @@ export class CrudComponent implements OnInit {
     statuses: any[] = [];
     rowsPerPageOptions = [5, 10, 20];
     private taskSubscription: Subscription;
-
+    userLogado: any = this.userService.getUser();
     constructor(private taskService: TaskService, private userService: UserService,
          private projectService: ProjectService, private messageService: MessageService,
         private impedimentService: ImpedimentService) { }
@@ -48,7 +50,8 @@ export class CrudComponent implements OnInit {
     ngOnInit() {
         this.userService.getUsers().subscribe(data => this.users = data);
         this.projectService.getProjects().subscribe(data => this.projects = data);
-        this.taskService.getTasks().subscribe(data => this.tasks = data);
+        // this.taskService.getTasks().subscribe(data => this.tasks = data);
+        this.taskService.getTasksByProject(this.projetoSelecionado.project_id).subscribe(data => this.tasks = data);
         this.impedimentService.getImpediments().subscribe(data => this.impediments = data);
 
         this.cols = [
@@ -61,13 +64,23 @@ export class CrudComponent implements OnInit {
 
         this.statuses = [
             { label: 'PENDENTE', value: 'pendente' },
-            { label: 'FAZENDO', value: 'fazendo' },
+            { label: 'DESENVOLVENDO', value: 'desenvolvendo' },
             { label: 'CONCLUÍDO', value: 'concluído' },
             { label: 'AGUARDANDO', value: 'aguardando' }
         ];
     }
 
-
+    onProjectChange(event: any): void {
+        if (this.projetoSelecionado && this.projetoSelecionado.project_id) {
+          this.loadTasks(this.projetoSelecionado.project_id);
+        }
+      }
+    
+      loadTasks(projectId: number): void {
+        this.taskService.getTasksByProject(projectId).subscribe(data => {
+          this.tasks = data;
+        });
+      }
     openTarefa() {
         this.task = {};
         this.submitted = false;
@@ -104,7 +117,7 @@ export class CrudComponent implements OnInit {
 
     confirmDelete() {
         this.deleteTaskDialog = false;
-        this.tasks = this.tasks.filter(val => val.taskId !== this.task.taskId);
+        this.tasks = this.tasks.filter(val => val.task_id !== this.task.task_id);
         this.messageService.add({ severity: 'success', summary: 'Successful', detail: 'Task Deleted', life: 3000 });
         this.task = {};
     }
@@ -117,46 +130,63 @@ export class CrudComponent implements OnInit {
 
     savetask() {
         this.submitted = true;
-
+    
         if (this.task.name?.trim()) {
-            if (this.task.taskId) {
-                this.tasks[this.findIndexById(this.task.taskId)] = this.task;
+            if (this.task.task_id) {
+                this.tasks[this.findIndexById(this.task.task_id)] = this.task;
                 this.messageService.add({ severity: 'success', summary: 'Successful', detail: 'Task Updated', life: 3000 });
             } else {
-                this.task.taskId = this.createId();
+                this.task.task_id = this.createId();
+                this.task.last_update = new Date();
+                if (this.projetoSelecionado && this.projetoSelecionado.project_id) {
+                    this.task.project_id = this.projetoSelecionado.project_id;
+                }
+                if (this.userSelecionado && this.userSelecionado.id) {
+                    this.task.assigned_to = this.userSelecionado.id;
+                }
+                
                 this.taskService.addTask(this.task).subscribe((newTask: Task) => {
                     this.tasks.push(newTask);
                     this.messageService.add({ severity: 'success', summary: 'Successful', detail: 'Task Created', life: 3000 });
                 });
             }
-
+    
             this.tasks = [...this.tasks];
             this.tarefaDialog = false;
             this.task = {};
         }
     }
-
+    
+    onTaskSelect(event: any) {
+        this.taskSelecionado = event.value;
+    }
+    
 
     saveImpediment() {
         this.submitted = true;
-
+    
         if (this.impediment.description?.trim()) {
             if (this.impediment.id) {
                 this.impediments[this.findIndexByIdImpedimento(this.impediment.id)] = this.impediment;
                 this.messageService.add({ severity: 'success', summary: 'Successful', detail: 'Impediment Updated', life: 3000 });
             } else {
                 this.impediment.id = this.createId();
+                if (this.taskSelecionado && this.taskSelecionado.task_id) {
+                    console.log('Task ID:', this.taskSelecionado.task_id);
+                    this.impediment.task_id = this.taskSelecionado.task_id;
+                }
                 this.impedimentService.addImpediment(this.impediment).subscribe((newImpediment: Impediment) => {
                     this.impediments.push(newImpediment);
                     this.messageService.add({ severity: 'success', summary: 'Successful', detail: 'Impediment Created', life: 3000 });
                 });
             }
-
+    
             this.impediments = [...this.impediments];
-            this.tarefaDialog = false;
+            this.impedimentoDialog = false;
             this.impediment = {};
         }
     }
+    
 
 
 
@@ -182,7 +212,7 @@ export class CrudComponent implements OnInit {
     }
 
     findIndexById(id: number): number {
-        return this.tasks.findIndex(task => task.taskId === id);
+        return this.tasks.findIndex(task => task.task_id === id);
     }
 
     findIndexByIdImpedimento(id: number): number {

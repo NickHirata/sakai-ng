@@ -8,6 +8,8 @@ import { Observable } from 'rxjs';
 export class UserService {
   private baseUrl = 'http://localhost:3000/users';
 
+  userLogado: any;
+  
   constructor(private http: HttpClient) { }
 
   getUsers(): Observable<any[]> {
@@ -32,4 +34,16 @@ export class UserService {
     const url = `${this.baseUrl}/${userId}`;
     return this.http.delete<any>(url);
   }
+  setUser(user: any) {
+    this.userLogado = user;
+  }
+
+  getUser() {
+    return this.userLogado;
+  }
+
+  isLoggedIn() {
+    return this.userLogado !== null;
+  }
+
 }

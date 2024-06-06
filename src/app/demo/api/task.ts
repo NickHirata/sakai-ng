@@ -1,5 +1,5 @@
 export interface Task {
-    taskId?: number;
+    task_id?: number;
     name?: string;
     description?: string;
     creationDate?: Date;
