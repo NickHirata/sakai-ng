@@ -1,13 +1,14 @@
+import { Router, RouterModule } from '@angular/router';
 import { Component, OnInit, OnDestroy } from '@angular/core';
 import { MenuItem } from 'primeng/api';
-import { Product } from '../../api/product';
-import { ProductService } from '../../service/product.service';
-import { Subscription, debounceTime } from 'rxjs';
 import { LayoutService } from 'src/app/layout/service/app.layout.service';
 import { Impediment } from '../../api/impediment';
 import { Project } from '../../api/project';
 import { ProjectService } from '../../service/project.service';
 import { ImpedimentService } from '../../service/impediment.service';
+import { TaskService } from '../../service/task.service';
+import { Task } from '../../api/task';
+import { Observable, Subscription } from 'rxjs';
 
 @Component({
     templateUrl: './dashboard.component.html',
@@ -17,103 +18,56 @@ export class DashboardComponent implements OnInit, OnDestroy {
     impediment: Impediment = {};
     projects: Project[] = [];
     project: Project = {};
-
+    private taskSubscription: Subscription;
+    qtdConcluido: number =0 ;
+    qtdDesenvolvimento: number = 0;
+    qtdPendente: number = 0;
     items!: MenuItem[];
+    tasks: Task[] = [];
+    task: Task = {};
+    impedimentoDialog: boolean = false;
+    submitted: boolean = false;
+    taskName$: Observable<string | null>;
 
-    products!: Product[];
-
-    chartData: any;
-
-    chartOptions: any;
-
-    subscription!: Subscription;
-
-    constructor(private productService: ProductService, public layoutService: LayoutService,
-        private projectService: ProjectService, private impedimentService: ImpedimentService
+    constructor(private taskService: TaskService , public layoutService: LayoutService,
+        private projectService: ProjectService, private impedimentService: ImpedimentService, private router: Router
     ) {
-        this.subscription = this.layoutService.configUpdate$
-        .pipe(debounceTime(25))
-        .subscribe((config) => {
-            this.initChart();
-        });
+
+    }
+    ngOnDestroy(): void {
+
     }
 
     ngOnInit() {
-        this.initChart();
-        this.productService.getProductsSmall().then(data => this.products = data);
         this.projectService.getProjects().subscribe(data => this.projects = data);
         this.impedimentService.getImpediments().subscribe(data => {
             this.impediments = data;
+
         })
 
         this.items = [
-            { label: 'Add New', icon: 'pi pi-fw pi-plus' },
-            { label: 'Remove', icon: 'pi pi-fw pi-minus' }
+            { label: 'Add New', icon: 'pi pi-fw pi-plus', command: () => this.openImpedimento() }
         ];
+
+        this.taskName$ = this.getTaskName(this.impediment.task_id);
+        this.taskService.getTasks().subscribe(data => {
+            this.tasks = data;
+            this.calcularQuantidades();
+        });
+    }
+    getTaskName(taskId: number): Observable<string | null> {
+        return this.taskService.getTaskById(taskId);
     }
 
-    initChart() {
-        const documentStyle = getComputedStyle(document.documentElement);
-        const textColor = documentStyle.getPropertyValue('--text-color');
-        const textColorSecondary = documentStyle.getPropertyValue('--text-color-secondary');
-        const surfaceBorder = documentStyle.getPropertyValue('--surface-border');
-
-        this.chartData = {
-            labels: ['January', 'February', 'March', 'April', 'May', 'June', 'July'],
-            datasets: [
-                {
-                    label: 'First Dataset',
-                    data: [65, 59, 80, 81, 56, 55, 40],
-                    fill: false,
-                    backgroundColor: documentStyle.getPropertyValue('--bluegray-700'),
-                    borderColor: documentStyle.getPropertyValue('--bluegray-700'),
-                    tension: .4
-                },
-                {
-                    label: 'Second Dataset',
-                    data: [28, 48, 40, 19, 86, 27, 90],
-                    fill: false,
-                    backgroundColor: documentStyle.getPropertyValue('--green-600'),
-                    borderColor: documentStyle.getPropertyValue('--green-600'),
-                    tension: .4
-                }
-            ]
-        };
-
-        this.chartOptions = {
-            plugins: {
-                legend: {
-                    labels: {
-                        color: textColor
-                    }
-                }
-            },
-            scales: {
-                x: {
-                    ticks: {
-                        color: textColorSecondary
-                    },
-                    grid: {
-                        color: surfaceBorder,
-                        drawBorder: false
-                    }
-                },
-                y: {
-                    ticks: {
-                        color: textColorSecondary
-                    },
-                    grid: {
-                        color: surfaceBorder,
-                        drawBorder: false
-                    }
-                }
-            }
-        };
+    calcularQuantidades() {
+        this.qtdConcluido = this.tasks.filter(task => task.status === 'Concluído').length;
+        this.qtdDesenvolvimento = this.tasks.filter(task => task.status === 'FAZENDO').length;
+        this.qtdPendente = this.tasks.filter(task => task.status === 'Pendente').length;
     }
 
-    ngOnDestroy() {
-        if (this.subscription) {
-            this.subscription.unsubscribe();
-        }
+    openImpedimento() {
+        this.router.navigate(['/pages/crud']);
     }
+
+
 }

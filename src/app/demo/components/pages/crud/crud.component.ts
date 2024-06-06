@@ -9,8 +9,7 @@ import { Table } from 'primeng/table';
 import { Task } from 'src/app/demo/api/task'; // Importando o modelo de tarefa
 import { TaskService } from 'src/app/demo/service/task.service'; // Importando o serviço de tarefa
 import { Project } from 'src/app/demo/api/project';
-import { map, switchMap } from 'rxjs/operators';
-import { forkJoin } from 'rxjs';
+import { Observable, Subscription } from 'rxjs';
 
 
 @Component({
@@ -40,16 +39,17 @@ export class CrudComponent implements OnInit {
     cols: any[] = [];
     statuses: any[] = [];
     rowsPerPageOptions = [5, 10, 20];
-
+    private taskSubscription: Subscription;
 
     constructor(private taskService: TaskService, private userService: UserService,
          private projectService: ProjectService, private messageService: MessageService,
-        private ImpedimentService: ImpedimentService) { }
+        private impedimentService: ImpedimentService) { }
 
     ngOnInit() {
         this.userService.getUsers().subscribe(data => this.users = data);
         this.projectService.getProjects().subscribe(data => this.projects = data);
         this.taskService.getTasks().subscribe(data => this.tasks = data);
+        this.impedimentService.getImpediments().subscribe(data => this.impediments = data);
 
         this.cols = [
             { field: 'name', header: 'Name' },
@@ -111,6 +111,7 @@ export class CrudComponent implements OnInit {
 
     hideDialog() {
         this.tarefaDialog = false;
+        this.impedimentoDialog = false;
         this.submitted = false;
     }
 
@@ -136,31 +137,56 @@ export class CrudComponent implements OnInit {
     }
 
 
-    saveImpediment(){
+    saveImpediment() {
         this.submitted = true;
-        this.impediment.id = this.createId();
-        this.impediments.push(this.impediment);
-        this.messageService.add({ severity: 'success', summary: 'Successful', detail: 'Impedidomento criado', life: 3000 });
-        this.impediments = [...this.impediments];
-        this.impedimentoDialog = false;
-        this.impediment = {};
+
+        if (this.impediment.description?.trim()) {
+            if (this.impediment.id) {
+                this.impediments[this.findIndexByIdImpedimento(this.impediment.id)] = this.impediment;
+                this.messageService.add({ severity: 'success', summary: 'Successful', detail: 'Impediment Updated', life: 3000 });
+            } else {
+                this.impediment.id = this.createId();
+                this.impedimentService.addImpediment(this.impediment).subscribe((newImpediment: Impediment) => {
+                    this.impediments.push(newImpediment);
+                    this.messageService.add({ severity: 'success', summary: 'Successful', detail: 'Impediment Created', life: 3000 });
+                });
+            }
+
+            this.impediments = [...this.impediments];
+            this.tarefaDialog = false;
+            this.impediment = {};
+        }
     }
 
-    // findIndexById(id: number): number {
-    //     let index = -1;
-    //     for (let i = 0; i < this.tasks.length; i++) {
-    //         if (this.tasks[i].taskId === id) {
-    //             index = i;
-    //             break;
-    //         }
-    //     }
 
-    //     return index;
-    // }
 
-    
+    getTaskName(taskId: number): Observable<string> {
+        return new Observable((observer) => {
+            if (this.taskSubscription) {
+                this.taskSubscription.unsubscribe();
+            }
+            this.taskSubscription = this.taskService.getTaskById(taskId).subscribe(
+                (task) => {
+                    if (task) {
+                        observer.next(task.name);
+                    } else {
+                        observer.next('Tarefa não encontrada');
+                    }
+                    observer.complete();
+                },
+                (error) => {
+                    observer.error('Erro ao buscar tarefa');
+                }
+            );
+        });
+    }
+
     findIndexById(id: number): number {
         return this.tasks.findIndex(task => task.taskId === id);
+    }
+
+    findIndexByIdImpedimento(id: number): number {
+        return this.impediments.findIndex(impediment => impediment.id === id);
     }
 
     createId(): number {

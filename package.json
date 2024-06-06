@@ -4,7 +4,7 @@
     "license": "MIT",
     "scripts": {
         "ng": "ng",
-        "start": "ng serve",
+        "start": "concurrently \"ng serve\" \"json-server --watch src/assets/demo/data/db.json\"",
         "build": "ng build",
         "test": "ng test",
         "lint": "ng lint",
@@ -42,6 +42,7 @@
         "@angular/cli": "^17.0.5",
         "@angular/compiler-cli": "^17.0.5",
         "@types/jasmine": "~4.3.1",
+        "concurrently": "^8.2.2",
         "jasmine-core": "~4.6.0",
         "karma": "~6.4.2",
         "karma-chrome-launcher": "~3.2.0",

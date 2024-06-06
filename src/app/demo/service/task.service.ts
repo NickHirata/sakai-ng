@@ -6,7 +6,7 @@ import { Observable } from 'rxjs';
   providedIn: 'root'
 })
 export class TaskService {
-  private baseUrl = 'https://sistemagerenciamento-nbay.onrender.com/tasks';
+  private baseUrl = 'http://localhost:3000/tasks';
 
   constructor(private http: HttpClient) { }
 
@@ -15,6 +15,9 @@ export class TaskService {
     return this.http.get<any[]>(this.baseUrl);
   }
 
+  getTaskById(taskId: number): Observable<any> {
+    return this.http.get<any>(`${this.baseUrl}?task_id=${taskId}`);
+  }
   // Método para adicionar uma nova tarefa
   addTask(task: any): Observable<any> {
     return this.http.post<any>(this.baseUrl, task);
