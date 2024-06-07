@@ -9,6 +9,9 @@ import { UserService } from './user.service';
   providedIn: 'root'
 })
 export class LoginService {
+  getUserLogado() {
+      throw new Error('Method not implemented.');
+  }
   // private baseUrl = 'https://sistemagerenciamento-nbay.onrender.com/auth/login';
   private baseUrl = 'http://localhost:3000/users';
 

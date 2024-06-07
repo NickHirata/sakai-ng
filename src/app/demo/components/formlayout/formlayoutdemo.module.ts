@@ -15,6 +15,7 @@ import { InputTextareaModule } from "primeng/inputtextarea";
 import { InputTextModule } from "primeng/inputtext";
 import { RouterModule } from '@angular/router';
 import { PasswordModule } from 'primeng/password';
+import { ToastModule } from 'primeng/toast';
 
 @NgModule({
 	imports: [
@@ -32,7 +33,8 @@ import { PasswordModule } from 'primeng/password';
 		InputTextareaModule,
 		InputTextModule,
 		RouterModule,
-		PasswordModule
+		PasswordModule,
+        ToastModule 
 	],
 	declarations: [FormLayoutDemoComponent]
 })

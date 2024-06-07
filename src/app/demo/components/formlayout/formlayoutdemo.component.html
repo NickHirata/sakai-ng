@@ -1,32 +1,37 @@
+<div class="mt-5 ml-5">
+    <button pButton type="button" icon="pi pi-arrow-left" label="Voltar para o Login" (click)="voltarParaLogin()"></button>
+</div>
+
 <div class="surface-ground flex align-items-center justify-content-center min-h-screen min-w-screen overflow-hidden">
 	<div class="col-12 md:col-6">
+		<p-toast></p-toast>
+
 		<div style="border-radius:56px; padding:0.3rem; background: linear-gradient(180deg, var(--primary-color) 10%, rgba(33, 150, 243, 0) 30%);">
 			<div class="w-full surface-card py-8 px-5 sm:px-8" style="border-radius:53px">
 					<div class="text-900 text-3xl font-medium mb-6 text-center">Cadastro de usuário!</div>
 					<div class="border-radius:56px; padding:1.0rem; background: linear-gradient(180deg, var(--primary-color) 10%, rgba(33, 150, 243, 0) 30%);">
 							<div class="p-fluid p-formgrid grid">
-								<div class="field col-12 md:col-6">
-									<label htmlFor="nome">Nome</label>
-									<input pInputText id="nome" type="text" />
+								<div class="field col-12 md:col-12">
+									<label htmlFor="nome">Nome Completo<span class="text-red-500">*</span></label>
+									<input pInputText id="nome" type="text" [(ngModel)]="user.name" name="name" required />
 								</div>
-								<div class="field col-12 md:col-6">
-									<label htmlFor="sobrenome">Sobrenome</label>
-									<input pInputText id="sobrenome" type="text" />
-								</div>
+
 								<div class="field col-12">
-									<label htmlFor="email">E-mail</label>
-									<input pInputTextarea id="email" rows="4" />
+									<label htmlFor="email">E-mail<span class="text-red-500">*</span></label>
+									<input pInputText id="email" type="email" [(ngModel)]="user.email" name="email" rows="4" required />
 								</div>
 								<div class="field col-12 md:col-6">
-									<label htmlFor="city">Senha</label>
-									<p-password id="password1" [(ngModel)]="password" placeholder="Password" [toggleMask]="true" styleClass="mb-5" inputStyleClass="w-full p-3 md:w-30rem"></p-password>
+									<label htmlFor="city">Senha<span class="text-red-500">*</span></label>
+									<p-password id="password" [(ngModel)]="user.password" name="password" placeholder="Password" [toggleMask]="true" styleClass="mb-5" inputStyleClass="w-full p-3 md:w-30rem" required ></p-password>
 								</div>
 								<div class="field col-12 md:col-6">
-									<label htmlFor="tipo">Tipo</label>
-									<p-dropdown [options]="dropdownItems" optionLabel="name" [(ngModel)]="selectedState"></p-dropdown>
+									<label htmlFor="tipo">Tipo<span class="text-red-500">*</span></label>
+									<p-dropdown [options]="dropdownItems" optionLabel="name" [(ngModel)]="user.type" name="type" required ></p-dropdown>
 								</div>
-								<button pButton label="Submit"></button>
+								<button pButton label="Submit" (click)="onSubmit()"></button>
 							</div>
-					</div>
+
+						</div>
+					
 			</div>
 	</div>
