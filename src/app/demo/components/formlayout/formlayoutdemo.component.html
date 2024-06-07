@@ -26,7 +26,7 @@
 								</div>
 								<div class="field col-12 md:col-6">
 									<label htmlFor="tipo">Tipo<span class="text-red-500">*</span></label>
-									<p-dropdown [options]="dropdownItems" optionLabel="name" [(ngModel)]="user.type" name="type" required ></p-dropdown>
+									<p-dropdown [options]="dropdownItems" [(ngModel)]="user.type" name="type" required ></p-dropdown>
 								</div>
 								<button pButton label="Submit" (click)="onSubmit()"></button>
 							</div>

@@ -16,10 +16,8 @@ export class FormLayoutDemoComponent implements OnInit{
     user: User = {};
     users: User[] = [];
 
-    dropdownItems = [
-        { name: 'Administrador', code: 'a' },
-        { name: 'Desenvolvedor', code: 'd' }
-    ];
+    dropdownItems = ['Administrador', 'Desenvolvedor'];
+
 
     submitted: boolean = false;
 

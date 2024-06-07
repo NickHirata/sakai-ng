@@ -19,41 +19,31 @@
       "id": "f4cb"
     },
     {
-      "id": "2843"
-    },
-    {
-      "id": "de51"
-    },
-    {
-      "id": "bb67"
-    },
-    {
       "id": "3835",
       "name": "Matheus ds",
       "email": "mat",
       "password": "123",
-      "type": {
-        "name": "Desenvolvedor",
-        "code": "d"
-      }
-    },
-    {
-      "id": "fd9d"
-    },
-    {
-      "id": "391c"
-    },
-    {
-      "id": "1a4b"
+      "type": "Desenvolvedor"
     },
     {
       "id": "b57b",
-      "type": {
-        "name": "Desenvolvedor",
-        "code": "d"
-      },
+      "type": "Desenvolvedor",
       "name": "Matheus Cesar",
       "email": "mat1",
+      "password": "123"
+    },
+    {
+      "id": "92ef",
+      "type": "Desenvolvedor",
+      "name": "Nicole Hirata",
+      "email": "nick@",
+      "password": "1234"
+    },
+    {
+      "id": "acc6",
+      "type": "Administrador",
+      "name": "Nicole Ciccolani",
+      "email": "nicole@",
       "password": "123"
     }
   ],
@@ -221,6 +211,32 @@
       "last_update": "2024-06-06T20:14:59.049Z",
       "project_id": 1,
       "assigned_to": "5e74"
+    },
+    {
+      "id": "f98b",
+      "name": "tarefa",
+      "description": "descr",
+      "status": "CONCLUÍDO",
+      "deadline": "12/12/2023",
+      "creation_date": "12/12/2023",
+      "end_date": "12/12/2023",
+      "task_id": 62555,
+      "last_update": "2024-06-07T20:45:52.165Z",
+      "project_id": 3,
+      "assigned_to": "f4cb"
+    },
+    {
+      "id": "7a92",
+      "name": "tarefa testeee",
+      "description": "descriçãooo",
+      "deadline": "12/12/2023",
+      "status": "CONCLUÍDO",
+      "creation_date": "12/12/2023",
+      "end_date": "12/12/2023",
+      "task_id": 44125,
+      "last_update": "2024-06-07T20:54:11.357Z",
+      "project_id": 1,
+      "assigned_to": "acc6"
     }
   ],
   "impediments": [
@@ -255,6 +271,16 @@
       "id": "71444",
       "description": "tarefa itau",
       "task_id": 3
+    },
+    {
+      "id": 30765,
+      "description": "impedimento mainframe",
+      "task_id": 96392
+    },
+    {
+      "id": 87048,
+      "description": "impedimetno itau",
+      "task_id": 79101
     }
   ]
 }
