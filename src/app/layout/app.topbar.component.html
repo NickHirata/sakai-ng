@@ -12,12 +12,19 @@
         <i class="pi pi-ellipsis-v"></i>
     </button>
 
+<<<<<<< Updated upstream
     <div #topbarmenu class="layout-topbar-menu" [ngClass]="{'layout-topbar-menu-mobile-active': layoutService.state.profileSidebarVisible}">
         <button class="p-link layout-topbar-button">
             <i class="pi pi-calendar"></i>
             <span>Calendar</span>
         </button>
         <button class="p-link layout-topbar-button">
+=======
+
+    <div #topbarmenu class="layout-topbar-menu d-flex align-items-center" [ngClass]="{'layout-topbar-menu-mobile-active': layoutService.state.profileSidebarVisible}">
+        <span>{{userLogado.username}}</span>
+        <button class="p-link layout-topbar-button"[routerLink]="'/auth/login'">
+>>>>>>> Stashed changes
             <i class="pi pi-user"></i>
             <span>Profile</span>
         </button>
@@ -26,4 +33,9 @@
             <span>Settings</span>
         </button>
     </div>
+<<<<<<< Updated upstream
 </div>
+=======
+
+</div>
+>>>>>>> Stashed changes

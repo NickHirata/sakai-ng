@@ -36,6 +36,24 @@ export class DashboardComponent implements OnInit, OnDestroy {
             { label: 'Add New', icon: 'pi pi-fw pi-plus' },
             { label: 'Remove', icon: 'pi pi-fw pi-minus' }
         ];
+<<<<<<< Updated upstream
+=======
+        this.taskService.getTasks().subscribe(data => {
+            this.tasks = data;
+            this.calcularQuantidades();
+        });
+    }
+    getTaskName(taskId: number): string {
+        const task = this.tasks.find(task => task.taskId === taskId);
+        return task ? task.name : 'Tarefa não encontrada';
+    }
+
+
+    calcularQuantidades() {
+        this.qtdConcluido = this.tasks.filter(task => task.status.toLowerCase() === 'concluído').length;
+        this.qtdDesenvolvimento = this.tasks.filter(task => task.status.toLowerCase() === 'desenvolvendo').length;
+        this.qtdPendente = this.tasks.filter(task => task.status.toLowerCase() === 'pendente').length;
+>>>>>>> Stashed changes
     }
 
     initChart() {
