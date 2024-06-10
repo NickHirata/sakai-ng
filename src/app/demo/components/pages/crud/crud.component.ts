@@ -6,8 +6,8 @@ import { UserService } from './../../../service/user.service';
 import { Component, OnInit } from '@angular/core';
 import { MessageService } from 'primeng/api';
 import { Table } from 'primeng/table';
-import { Task } from 'src/app/demo/api/task'; 
-import { TaskService } from 'src/app/demo/service/task.service'; 
+import { Task } from 'src/app/demo/api/task';
+import { TaskService } from 'src/app/demo/service/task.service';
 import { Project } from 'src/app/demo/api/project';
 import { Observable, Subscription } from 'rxjs';
 import { getLocaleDateFormat } from '@angular/common';
@@ -53,6 +53,7 @@ export class CrudComponent implements OnInit {
         // this.taskService.getTasks().subscribe(data => this.tasks = data);
         this.taskService.getTasksByProject(this.projetoSelecionado.project_id).subscribe(data => this.tasks = data);
         this.impedimentService.getImpediments().subscribe(data => this.impediments = data);
+        this.loadProjectsAndUsers();
 
         this.cols = [
             { field: 'name', header: 'Name' },
@@ -68,6 +69,88 @@ export class CrudComponent implements OnInit {
             { label: 'CONCLUÍDO', value: 'concluído' },
             { label: 'AGUARDANDO', value: 'aguardando' }
         ];
+
+
+
+    }
+
+    loadProjectsAndUsers() {
+        this.userService.getUsers().subscribe(data => this.users = data);
+        this.projectService.getProjects().subscribe(data => {
+            this.projects = data;
+            if (this.projects.length > 0) {
+                this.projetoSelecionado = this.projects[0]; // Seleciona o primeiro projeto por padrão
+                this.loadTasks(this.projetoSelecionado.project_id); // Carrega as tarefas do projeto selecionado
+            }
+        });
+        this.impedimentService.getImpediments().subscribe(data => this.impediments = data);
+    }
+
+    loadTasks(projectId: number): void {
+        this.taskService.getTasksByProject(projectId).subscribe(data => {
+            this.tasks = data;
+            // Inicializa o currentTime com o tempo decorrido das tarefas
+            this.tasks.forEach(task => {
+                if (task.timerRunning) {
+                    task.currentTime = Math.floor((Date.now() - task.startTime) / 1000);
+                    this.startTimer(task); // Inicia o timer se a tarefa estiver em execução
+                }
+            });
+        });
+    }
+
+    pauseTimer(task: Task) {
+        // Pausa o cronômetro apenas se estiver rodando
+        if (task.timerRunning && task.timer) {
+            clearInterval(task.timer);
+            task.timerRunning = false;
+            task.currentTime = Math.floor((Date.now() - task.startTime) / 1000); // Salva o tempo decorrido
+            this.updateTimerDisplay(task); // Atualiza o tempo na tela
+        }
+    }
+
+    startTimer(task: Task) {
+        // Inicia o cronômetro apenas se não estiver rodando
+        if (!task.timerRunning) {
+            task.startTime = Date.now() - (task.currentTime || 0) * 1000; // Ajusta o tempo inicial com base no tempo decorrido
+            task.timerRunning = true;
+            task.timer = setInterval(() => {
+                task.currentTime = Math.floor((Date.now() - task.startTime) / 1000); // Atualiza o tempo decorrido
+                this.updateTimerDisplay(task); // Atualiza o tempo na tela
+            }, 1000);
+        }
+    }
+
+    updateTimerDisplay(task: Task) {
+        // Atualiza o tempo na tela
+        const formattedTime = this.formatTime(task.currentTime);
+        const timerElement = document.getElementById('timer-' + task.task_id);
+        if (timerElement) {
+            timerElement.textContent = formattedTime;
+        }
+    }
+
+
+
+    completeTask(task: Task) {
+        this.pauseTimer(task); // Pausa o cronômetro ao concluir a tarefa
+        task.status = 'CONCLUÍDO'; // Muda o status da tarefa para "CONCLUÍDO"
+
+        // Aqui você pode adicionar a lógica para atualizar a tarefa no servidor, se necessário
+
+        this.messageService.add({ severity: 'success', summary: 'Successful', detail: 'Task Completed', life: 3000 });
+    }
+
+
+    formatTime(seconds: number): string {
+        const hours: number = Math.floor(seconds / 3600);
+        const minutes: number = Math.floor((seconds % 3600) / 60);
+        const secs: number = seconds % 60;
+        return `${this.pad(hours)}:${this.pad(minutes)}:${this.pad(secs)}`;
+    }
+
+    pad(val: number): string {
+        return val < 10 ? '0' + val : val.toString();
     }
 
     onProjectChange(event: any): void {
@@ -75,12 +158,7 @@ export class CrudComponent implements OnInit {
           this.loadTasks(this.projetoSelecionado.project_id);
         }
       }
-    
-      loadTasks(projectId: number): void {
-        this.taskService.getTasksByProject(projectId).subscribe(data => {
-          this.tasks = data;
-        });
-      }
+
     openTarefa() {
         this.task = {};
         this.submitted = false;
@@ -130,7 +208,7 @@ export class CrudComponent implements OnInit {
 
     savetask() {
         this.submitted = true;
-    
+
         if (this.task.name?.trim()) {
             if (this.task.task_id) {
                 this.tasks[this.findIndexById(this.task.task_id)] = this.task;
@@ -144,27 +222,27 @@ export class CrudComponent implements OnInit {
                 if (this.userSelecionado && this.userSelecionado.id) {
                     this.task.assigned_to = this.userSelecionado.id;
                 }
-                
+
                 this.taskService.addTask(this.task).subscribe((newTask: Task) => {
                     this.tasks.push(newTask);
                     this.messageService.add({ severity: 'success', summary: 'Successful', detail: 'Task Created', life: 3000 });
                 });
             }
-    
+
             this.tasks = [...this.tasks];
             this.tarefaDialog = false;
             this.task = {};
         }
     }
-    
+
     onTaskSelect(event: any) {
         this.taskSelecionado = event.value;
     }
-    
+
 
     saveImpediment() {
         this.submitted = true;
-    
+
         if (this.impediment.description?.trim()) {
             if (this.impediment.id) {
                 this.impediments[this.findIndexByIdImpedimento(this.impediment.id)] = this.impediment;
@@ -180,13 +258,13 @@ export class CrudComponent implements OnInit {
                     this.messageService.add({ severity: 'success', summary: 'Successful', detail: 'Impediment Created', life: 3000 });
                 });
             }
-    
+
             this.impediments = [...this.impediments];
             this.impedimentoDialog = false;
             this.impediment = {};
         }
     }
-    
+
 
 
 

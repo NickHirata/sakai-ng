@@ -9,4 +9,9 @@ export interface Task {
     status?: string;
     project_id?: number;
     assigned_to?: number;
+        // Propriedades relacionadas ao cronômetro
+        currentTime?: number; // Tempo decorrido do cronômetro em segundos
+        timer?: any; // Referência para o setInterval
+        timerRunning?: boolean; // Indica se o cronômetro está em execução
+        startTime?: number;
 }

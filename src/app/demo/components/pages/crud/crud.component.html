@@ -13,7 +13,7 @@
                         <button pButton pRipple label="Adicionar tarefa" icon="pi pi-plus" class="p-button-success mr-2" (click)="openTarefa()"></button>
                     </div>
                 </ng-template>
-            
+
                 <p-dropdown
                     [options]="projects"
                     [(ngModel)]="projetoSelecionado"
@@ -21,12 +21,12 @@
                     placeholder="Selecione um projeto"
                     (onChange)="onProjectChange($event)"/>
             </p-toolbar>
-            
-            
+
+
 
             <div>
 
-              
+
               <p-table
                 #dt
                 [value]="tasks"
@@ -60,6 +60,7 @@
                     <th pSortableColumn="name">Nome <p-sortIcon field="name"></p-sortIcon></th>
                     <th pSortableColumn="description">Descrição <p-sortIcon field="description"></p-sortIcon></th>
                     <th pSortableColumn="status">Status <p-sortIcon field="status"></p-sortIcon></th>
+                    <th pSortableColumn="status">Timer <p-sortIcon field="timer"></p-sortIcon></th>
                     <th></th>
                   </tr>
                 </ng-template>
@@ -80,22 +81,32 @@
                       <span class="p-column-title">Status</span>
                       <span [class]="'task-badge status-' + (task.status ? task.status.toLowerCase() : '')">{{ task.status }}</span>
                     </td>
-                    <td>
-                      <div class="flex">
-                        <button pButton pRipple icon="pi pi-pencil" class="p-button-rounded p-button-success mr-2" (click)="editTask(task)"></button>
-                        <button pButton pRipple icon="pi pi-play" class="p-button-rounded p-button-text"></button>
-                        <button pButton pRipple icon="pi pi-pause" class="p-button-rounded p-button-text"></button>
-                        <button pButton pRipple class="p-button-rounded p-button-warning">Concluir</button>
-                      </div>
+                    <td style="width:14%; min-width:10rem;">
+                        <span class="p-column-title">Timer</span>
+                        <span id="timer-{{task.task_id}}">{{ formatTime(task.timer) }}</span>
                     </td>
+
+                    <td>
+                        <div class="flex">
+                            <button pButton pRipple icon="pi pi-pencil" class="p-button-rounded p-button-success mr-2" (click)="editTask(task)"></button>
+                            <button pButton pRipple icon="pi pi-play" class="p-button-rounded p-button-text" (click)="startTimer(task)"></button>
+                            <button pButton pRipple icon="pi pi-pause" class="p-button-rounded p-button-text" (click)="pauseTimer(task)"></button>
+                            <button pButton pRipple class="p-button-rounded p-button-warning" (click)="completeTask(task)">Concluir</button>
+
+                            <div *ngIf="task.timerRunning">Tempo decorrido: {{ formatTime(task.currentTime) }}</div>
+
+                        </div>
+                    </td>
+
+
                   </tr>
                 </ng-template>
               </p-table>
-              
+
               <ng-template #noTasks>
                 <p>Nenhuma tarefa encontrada para o projeto selecionado.</p>
               </ng-template>
-              
+
         </div>
 
         <p-dialog [(visible)]="tarefaDialog" [style]="{width: '450px'}" header="Detalhes da tarefa" [modal]="true" class="p-fluid">
@@ -188,7 +199,7 @@
                         [(ngModel)]="taskSelecionado"
                         appendTo="body"
                         optionLabel="name"
-                        placeholder="Selecione a tarefa" 
+                        placeholder="Selecione a tarefa"
                         (onChange)="onTaskSelect($event)"/>
                 </div>
 
