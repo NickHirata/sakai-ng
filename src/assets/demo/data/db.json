@@ -73,6 +73,12 @@
       "name": "Time devops",
       "project_id": 2,
       "id": "159d"
+    },
+    {
+      "id": "56f6",
+      "name": "time tcc",
+      "team_id": 36051,
+      "project_id": 1
     }
   ],
   "userTeams": [
@@ -85,49 +91,6 @@
       "user_id": 2,
       "team_id": 2,
       "id": "0f13"
-    },
-    {
-      "0": {
-        "user_id": "5e74",
-        "team_id": 99761,
-        "id": 41872
-      },
-      "1": {
-        "user_id": "f4cb",
-        "team_id": 99761,
-        "id": 29275
-      },
-      "2": {
-        "user_id": "3835",
-        "team_id": 99761,
-        "id": 26561
-      },
-      "3": {
-        "user_id": "b57b",
-        "team_id": 99761,
-        "id": 69712
-      },
-      "4": {
-        "user_id": "92ef",
-        "team_id": 99761,
-        "id": 67671
-      },
-      "5": {
-        "user_id": "acc6",
-        "team_id": 99761,
-        "id": 69080
-      },
-      "6": {
-        "user_id": "6f8f",
-        "team_id": 99761,
-        "id": 47297
-      },
-      "7": {
-        "user_id": "278b",
-        "team_id": 99761,
-        "id": 22084
-      },
-      "id": "cba0"
     }
   ],
   "projects": [
