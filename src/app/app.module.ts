@@ -19,7 +19,7 @@ import { MessageService } from 'primeng/api';
     providers: [
         { provide: LocationStrategy, useClass: PathLocationStrategy },
         CountryService, CustomerService, EventService, IconService, NodeService,
-        PhotoService, ProductService, MessageService
+        PhotoService, ProductService, MessageService,
     ],
     bootstrap: [AppComponent],
 })

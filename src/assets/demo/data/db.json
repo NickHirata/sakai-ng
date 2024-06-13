@@ -45,6 +45,20 @@
       "name": "Nicole Ciccolani",
       "email": "nicole@",
       "password": "123"
+    },
+    {
+      "id": "6f8f",
+      "type": "Desenvolvedor",
+      "name": "kayla",
+      "email": "kay@",
+      "password": "123"
+    },
+    {
+      "id": "278b",
+      "type": "Administrador",
+      "name": "ket silva",
+      "email": "ket@",
+      "password": "123"
     }
   ],
   "teams": [
@@ -71,6 +85,49 @@
       "user_id": 2,
       "team_id": 2,
       "id": "0f13"
+    },
+    {
+      "0": {
+        "user_id": "5e74",
+        "team_id": 99761,
+        "id": 41872
+      },
+      "1": {
+        "user_id": "f4cb",
+        "team_id": 99761,
+        "id": 29275
+      },
+      "2": {
+        "user_id": "3835",
+        "team_id": 99761,
+        "id": 26561
+      },
+      "3": {
+        "user_id": "b57b",
+        "team_id": 99761,
+        "id": 69712
+      },
+      "4": {
+        "user_id": "92ef",
+        "team_id": 99761,
+        "id": 67671
+      },
+      "5": {
+        "user_id": "acc6",
+        "team_id": 99761,
+        "id": 69080
+      },
+      "6": {
+        "user_id": "6f8f",
+        "team_id": 99761,
+        "id": 47297
+      },
+      "7": {
+        "user_id": "278b",
+        "team_id": 99761,
+        "id": 22084
+      },
+      "id": "cba0"
     }
   ],
   "projects": [
@@ -107,178 +164,204 @@
       "id": "d000"
     }
   ],
-    "tasks": [
-      {
-        "task_id": 1,
-        "creationDate": "2023-10-01",
-        "deadline": "2023-10-02",
-        "description": "First Task Description",
-        "end_date": "2023-05-02",
-        "name": "Task projeto um",
-        "last_update": "2023-01-02",
-        "status": "concluído",
-        "project_id": 1,
-        "assigned_to": 1,
-        "id": "7961",
-        "currentTime": 120,
-        "timer": null,
-        "timerRunning": false,
-        "startTime": 0
-      },
-      {
-        "task_id": 2,
-        "creationDate": "2023-01-15",
-        "deadline": "2023-03-15",
-        "description": "Second Task Description",
-        "end_date": null,
-        "name": "Task ",
-        "last_update": "2023-01-03",
-        "status": "desenvolvendo",
-        "project_id": 2,
-        "assigned_to": 2,
-        "id": "9226",
-        "currentTime": 540,
-        "timer": null,
-        "timerRunning": false,
-        "startTime": 0
-      },
-      {
-        "task_id": 3,
-        "creationDate": "2023-01-15",
-        "deadline": "2023-03-15",
-        "description": "Third Task descricao",
-        "end_date": null,
-        "name": "Task Three",
-        "last_update": "2023-01-03",
-        "status": "pendente",
-        "project_id": 3,
-        "assigned_to": 2,
-        "id": "15fa",
-        "currentTime": 340,
-        "timer": null,
-        "timerRunning": false,
-        "startTime": 0
-      },
-      {
-        "task_id": 4,
-        "creationDate": "2023-01-15",
-        "deadline": "2023-03-15",
-        "description": "Fourth Task Description",
-        "end_date": null,
-        "name": "Task Four",
-        "last_update": "2023-01-03",
-        "status": "aguardando",
-        "project_id": 4,
-        "assigned_to": 2,
-        "id": "993a",
-        "currentTime": 340,
-        "timer": null,
-        "timerRunning": false,
-        "startTime": 0
-      },
-      {
-        "id": "7e78",
-        "name": "tarefa nicole",
-        "description": "descricao da tarefa nicole",
-        "status": "pendente",
-        "deadline": "2023-12-12",
-        "creationDate": "2023-12-12",
-        "end_date": "2023-12-12",
-        "task_id": 79101,
-        "project_id": 4,
-        "assigned_to": 2,
-        "last_update": "2023-01-03",
-        "currentTime": 45,
-        "timer": null,
-        "timerRunning": false,
-        "startTime": 0
-      },
-      {
-        "id": "b76f",
-        "name": "tarefa cobol",
-        "description": "essa tarefa é pra fazer o prgrama 8",
-        "status": "DESENVOLVENDO",
-        "deadline": "2023-12-12",
-        "creationDate": "2023-12-12",
-        "end_date": "2023-12-12",
-        "task_id": 87410,
-        "last_update": "2024-06-06",
-        "project_id": 1,
-        "assigned_to": "5e74",
-        "currentTime": 75,
-        "timer": null,
-        "timerRunning": false,
-        "startTime": 0
-      },
-      {
-        "id": "353a",
-        "name": "jhiw jhow",
-        "description": "ele tirou 9.5 no exercico 8",
-        "deadline": "2023-12-12",
-        "creationDate": "2023-12-12",
-        "end_date": "2023-12-12",
-        "status": "desenvolvendo",
-        "task_id": 96392,
-        "last_update": "2024-06-06T20:10:32.449Z",
-        "project_id": 2,
-        "assigned_to": "f4cb",
-        "currentTime": 100,
-        "timer": null,
-        "timerRunning": false,
-        "startTime": 0
-      },
-      {
-        "id": "262c",
-        "name": "tarefaaa",
-        "description": "qweewqe",
-        "status": "desenvolvendo",
-        "deadline": "2023-12-12",
-        "creationDate": "2023-12-12",
-        "end_date": "2023-12-12",
-        "task_id": 74461,
-        "last_update": "2024-06-06T20:14:59.049Z",
-        "project_id": 1,
-        "assigned_to": "5e74",
-        "currentTime": 75,
-        "timer": null,
-        "timerRunning": false,
-        "startTime": 0
-      },
-      {
-        "id": "f98b",
-        "name": "tarefa",
-        "description": "descr",
-        "status": "desenvolvendo",
-        "deadline": "2023-12-12",
-        "creationDate": "2023-12-12",
-        "end_date": "2023-12-12",
-        "task_id": 62555,
-        "last_update": "2024-06-07T20:45:52.165Z",
-        "project_id": 3,
-        "assigned_to": "f4cb",
-        "currentTime": 750,
-        "timer": null,
-        "timerRunning": false,
-        "startTime": 0
-      },
-      {
-        "id": "7a92",
-        "name": "tarefa testeee",
-        "description": "descriçãooo",
-        "deadline": "2023-12-12",
-        "status": "CONCLUÍDO",
-        "creationDate": "2023-12-12",
-        "end_date": "2023-12-12",
-        "task_id": 44125,
-        "last_update": "2024-06-07T20:54:11.357Z",
-        "project_id": 1,
-        "assigned_to": "acc6",
-        "currentTime": 100,
-        "timer": null,
-        "timerRunning": false,
-        "startTime": 0
-      }
-
+  "tasks": [
+    {
+      "task_id": 1,
+      "creationDate": "2023-10-01",
+      "deadline": "2023-10-02",
+      "description": "First Task Description",
+      "end_date": "2023-05-02",
+      "name": "Task projeto um",
+      "last_update": "2023-01-02",
+      "status": "concluído",
+      "project_id": 1,
+      "assigned_to": 1,
+      "id": "7961",
+      "currentTime": 120,
+      "timer": 0,
+      "timerRunning": false,
+      "startTime": 0
+    },
+    {
+      "task_id": 2,
+      "creationDate": "2023-01-15",
+      "deadline": "2023-03-15",
+      "description": "Second Task Description",
+      "end_date": null,
+      "name": "Task ",
+      "last_update": "2023-01-03",
+      "status": "desenvolvendo",
+      "project_id": 2,
+      "assigned_to": 2,
+      "id": "9226",
+      "currentTime": 540,
+      "timer": 0,
+      "timerRunning": false,
+      "startTime": 0
+    },
+    {
+      "task_id": 3,
+      "creationDate": "2023-01-15",
+      "deadline": "2023-03-15",
+      "description": "Third Task descricao",
+      "end_date": null,
+      "name": "Task Three",
+      "last_update": "2023-01-03",
+      "status": "pendente",
+      "project_id": 3,
+      "assigned_to": 2,
+      "id": "15fa",
+      "currentTime": 340,
+      "timer": 0,
+      "timerRunning": false,
+      "startTime": 0
+    },
+    {
+      "task_id": 4,
+      "creationDate": "2023-01-15",
+      "deadline": "2023-03-15",
+      "description": "Fourth Task Description",
+      "end_date": null,
+      "name": "Task Four",
+      "last_update": "2023-01-03",
+      "status": "aguardando",
+      "project_id": 4,
+      "assigned_to": 2,
+      "id": "993a",
+      "currentTime": 340,
+      "timer": 0,
+      "timerRunning": false,
+      "startTime": 0
+    },
+    {
+      "id": "7e78",
+      "name": "tarefa nicole",
+      "description": "descricao da tarefa nicole",
+      "status": "pendente",
+      "deadline": "2023-12-12",
+      "creationDate": "2023-12-12",
+      "end_date": "2023-12-12",
+      "task_id": 79101,
+      "project_id": 4,
+      "assigned_to": 2,
+      "last_update": "2023-01-03",
+      "currentTime": 45,
+      "timer": 0,
+      "timerRunning": false,
+      "startTime": 0
+    },
+    {
+      "id": "b76f",
+      "name": "tarefa cobol",
+      "description": "essa tarefa é pra fazer o prgrama 8",
+      "status": "DESENVOLVENDO",
+      "deadline": "2023-12-12",
+      "creationDate": "2023-12-12",
+      "end_date": "2023-12-12",
+      "task_id": 87410,
+      "last_update": "2024-06-06",
+      "project_id": 1,
+      "assigned_to": "5e74",
+      "currentTime": 75,
+      "timer": 0,
+      "timerRunning": false,
+      "startTime": 0
+    },
+    {
+      "id": "353a",
+      "name": "jhiw jhow",
+      "description": "ele tirou 9.5 no exercico 8",
+      "deadline": "2023-12-12",
+      "creationDate": "2023-12-12",
+      "end_date": "2023-12-12",
+      "status": "desenvolvendo",
+      "task_id": 96392,
+      "last_update": "2024-06-06T20:10:32.449Z",
+      "project_id": 2,
+      "assigned_to": "f4cb",
+      "currentTime": 100,
+      "timer": null,
+      "timerRunning": false,
+      "startTime": 0
+    },
+    {
+      "id": "262c",
+      "name": "tarefaaa",
+      "description": "qweewqe",
+      "status": "desenvolvendo",
+      "deadline": "2023-12-12",
+      "creationDate": "2023-12-12",
+      "end_date": "2023-12-12",
+      "task_id": 74461,
+      "last_update": "2024-06-06T20:14:59.049Z",
+      "project_id": 1,
+      "assigned_to": "5e74",
+      "currentTime": 75,
+      "timer": null,
+      "timerRunning": false,
+      "startTime": 0
+    },
+    {
+      "id": "f98b",
+      "name": "tarefa",
+      "description": "descr",
+      "status": "desenvolvendo",
+      "deadline": "2023-12-12",
+      "creationDate": "2023-12-12",
+      "end_date": "2023-12-12",
+      "task_id": 62555,
+      "last_update": "2024-06-07T20:45:52.165Z",
+      "project_id": 3,
+      "assigned_to": "f4cb",
+      "currentTime": 750,
+      "timer": null,
+      "timerRunning": false,
+      "startTime": 0
+    },
+    {
+      "id": "7a92",
+      "name": "tarefa testeee",
+      "description": "descriçãooo",
+      "deadline": "2023-12-12",
+      "status": "CONCLUÍDO",
+      "creationDate": "2023-12-12",
+      "end_date": "2023-12-12",
+      "task_id": 44125,
+      "last_update": "2024-06-07T20:54:11.357Z",
+      "project_id": 1,
+      "assigned_to": "acc6",
+      "currentTime": 100,
+      "timer": null,
+      "timerRunning": false,
+      "startTime": 0
+    },
+    {
+      "id": "d01f",
+      "name": "tarefa mainframe",
+      "description": "descriçkjasdkj",
+      "status": "PENDENTE",
+      "deadline": "12/12/2023",
+      "creation_date": "12/12/2023",
+      "end_date": "12/12/2023",
+      "task_id": 11487,
+      "last_update": "2024-06-13T18:17:36.881Z",
+      "project_id": 2,
+      "assigned_to": "6f8f"
+    },
+    {
+      "id": "946f",
+      "name": "tarefa teste avaliacao",
+      "description": "descr",
+      "status": "DESENVOLVENDO",
+      "deadline": "12/12/2023",
+      "creation_date": "12/12/2023",
+      "end_date": "12/12/2023",
+      "task_id": 14719,
+      "last_update": "2024-06-13T18:27:13.816Z",
+      "timer": 0,
+      "project_id": 1,
+      "assigned_to": "92ef"
+    }
   ],
   "impediments": [
     {
@@ -314,14 +397,24 @@
       "task_id": 3
     },
     {
-      "id": 30765,
+      "id": "30765",
       "description": "impedimento mainframe",
       "task_id": 96392
     },
     {
-      "id": 87048,
+      "id": "87048",
       "description": "impedimetno itau",
       "task_id": 79101
+    },
+    {
+      "id": "44017",
+      "description": "impedimento teste avaliacao",
+      "task_id": 1
+    },
+    {
+      "id": "16745",
+      "description": "impedimento da avaliacao",
+      "task_id": 14719
     }
   ]
 }

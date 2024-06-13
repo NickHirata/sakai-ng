@@ -10,7 +10,8 @@ import { Task } from 'src/app/demo/api/task';
 import { TaskService } from 'src/app/demo/service/task.service';
 import { Project } from 'src/app/demo/api/project';
 import { Observable, Subscription } from 'rxjs';
-import { getLocaleDateFormat } from '@angular/common';
+import { Team } from 'src/app/demo/api/team';
+import { TeamService } from 'src/app/demo/service/team.service';
 
 
 @Component({
@@ -20,12 +21,16 @@ import { getLocaleDateFormat } from '@angular/common';
 export class CrudComponent implements OnInit {
     userSelecionado: User = {};
     projetoSelecionado: Project = {};
+    projectSelecionado: Project = {};
+    time: Team = {};
+    times: Team[] = [];
     taskSelecionado: Task = {};
     dropdownItems = [
         { name: 'Administrador', code: 'a' },
         { name: 'Desenvolvedor', code: 'd' }
     ];
     tarefaDialog: boolean = false;
+
     impedimentoDialog: boolean = false;
     deleteTasksDialog: boolean = false;
     deleteTaskDialog: boolean = false;
@@ -45,7 +50,7 @@ export class CrudComponent implements OnInit {
     userLogado: any = this.userService.getUser();
     constructor(private taskService: TaskService, private userService: UserService,
          private projectService: ProjectService, private messageService: MessageService,
-        private impedimentService: ImpedimentService) { }
+        private impedimentService: ImpedimentService, private teamService: TeamService) { }
 
     ngOnInit() {
         this.userService.getUsers().subscribe(data => this.users = data);
@@ -53,6 +58,7 @@ export class CrudComponent implements OnInit {
         // this.taskService.getTasks().subscribe(data => this.tasks = data);
         this.taskService.getTasksByProject(this.projetoSelecionado.project_id).subscribe(data => this.tasks = data);
         this.impedimentService.getImpediments().subscribe(data => this.impediments = data);
+        this.teamService.getTeams().subscribe(data => this.times = data)
         this.loadProjectsAndUsers();
 
         this.cols = [
@@ -166,6 +172,8 @@ export class CrudComponent implements OnInit {
 
 
     }
+
+ 
     openImpedimento() {
         this.task = {};
         this.submitted = false;
@@ -216,6 +224,7 @@ export class CrudComponent implements OnInit {
             } else {
                 this.task.task_id = this.createId();
                 this.task.last_update = new Date();
+                this.task.timer = 0;
                 if (this.projetoSelecionado && this.projetoSelecionado.project_id) {
                     this.task.project_id = this.projetoSelecionado.project_id;
                 }
@@ -264,6 +273,8 @@ export class CrudComponent implements OnInit {
             this.impediment = {};
         }
     }
+
+
 
 
 

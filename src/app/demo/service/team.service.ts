@@ -6,16 +6,47 @@ import { Observable } from 'rxjs';
   providedIn: 'root'
 })
 export class TeamService {
-  private baseUrl = 'http://localhost:3000/teams'; // Ajuste conforme necessário
+  private baseUrl = 'http://localhost:3000/teams'; 
+  private userTeamsUrl = 'http://localhost:3000/userTeams'; 
 
   constructor(private http: HttpClient) { }
 
+  
   getTeams(): Observable<any[]> {
     return this.http.get<any[]>(this.baseUrl);
   }
 
+  getTeamByID(id: number): Observable<any[]> {
+    const url = `${this.userTeamsUrl}team_id=${id}`;
+    return this.http.get<any[]>(url);
+  }
+
+  getTeamByIdUser(userId: number): Observable<any[]> {
+    const url = `${this.userTeamsUrl}?user_id=${userId}`;
+    return this.http.get<any[]>(url);
+  }
+
   addTeam(team: any): Observable<any> {
     return this.http.post<any>(this.baseUrl, team);
+  }
+
+  addUserTeams(userTeams: any[]): Observable<any[]> {
+    return this.http.post<any[]>(this.userTeamsUrl, userTeams);
+  }
+
+  createTeamWithUsers(team: any, userTeams: any[]): Observable<any> {
+    return new Observable(observer => {
+      this.addTeam(team).subscribe(newTeam => {
+        const userTeamsWithTeamId = userTeams.map(userTeam => ({
+          ...userTeam,
+          team_id: newTeam.team_id
+        }));
+        this.addUserTeams(userTeamsWithTeamId).subscribe(() => {
+          observer.next(newTeam);
+          observer.complete();
+        });
+      });
+    });
   }
 
   updateTeam(team: any): Observable<any> {

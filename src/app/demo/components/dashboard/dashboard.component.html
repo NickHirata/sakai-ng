@@ -1,3 +1,4 @@
+<p-toast></p-toast>
 <div class="grid">
 
         <div class="col-12 lg:col-6 xl:col-3">
@@ -32,6 +33,9 @@
             </div>
         </div>
 
+
+
+
         <div class="col-12 lg:col-6 xl:col-3">
             <div class="card mb-0">
                 <div class="flex justify-content-between mb-3">
@@ -49,6 +53,16 @@
             </div>
         </div>
 
+        <div class="col-12 x2:col-6">
+            <div class="card mb-0">
+                <div class="my-2">
+                    <button pButton pRipple label="Adicionar time" icon="pi pi-plus" class="p-button-info mr-2" (click)="openTime()"></button>
+                </div>
+
+                   
+            </div>
+  
+        </div>
         <div class="col-12 xl:col-6">
             <div class="card" >
                 <div class="flex justify-content-between align-items-center mb-5">
@@ -83,4 +97,46 @@
 
 
 </div>
+
+
+<p-dialog [(visible)]="timeDialog" [style]="{width: '450px'}" header="Detalhes do time" [modal]="true" class="p-fluid">
+    <ng-template pTemplate="content">
+        <div class="field">
+            <label for="name">Nome da equipe</label>
+            <textarea id="name" pInputTextarea [(ngModel)]="time.name" required rows="3" cols="20" class="w-full"></textarea>
+        </div>
+        <div class="field">
+            <label class="mb-3">Projetos</label>
+            <p-dropdown
+                [options]="projects"
+                [(ngModel)]="projectSelecionado"
+                appendTo="body"
+                optionLabel="name"
+                placeholder="Selecione o projeto"/>
+        </div>
+        <div class="field">
+            <label class="mb-3">Membros da equipe</label>
+            <p-multiSelect
+                [options]="users"
+                [(ngModel)]="selectedUsers"
+                optionLabel="name"
+                display="chip"
+                defaultLabel="Selecione os membros"
+                [filter]="true"
+                appendTo="body">
+                <ng-template let-user pTemplate="item">
+                    <div class="d-flex justify-content-between">
+                        <div>{{ user.name }}</div>
+                        <div class="ml-auto text-muted">{{ user.type }}</div>
+                    </div>
+                </ng-template>
+            </p-multiSelect>
+        </div>
+    </ng-template>
+
+    <ng-template pTemplate="footer">
+        <button pButton pRipple label="Cancel" icon="pi pi-times" class="p-button-text" (click)="hideDialog()"></button>
+        <button pButton pRipple label="Save" icon="pi pi-check" class="p-button-text" (click)="saveTime()"></button>
+    </ng-template>
+</p-dialog>
 

@@ -11,6 +11,10 @@ import { StyleClassModule } from 'primeng/styleclass';
 import { PanelMenuModule } from 'primeng/panelmenu';
 import { DashboardsRoutingModule } from './dashboard-routing.module';
 import { SplitButtonModule } from 'primeng/splitbutton';
+import { CrudRoutingModule } from '../pages/crud/crud-routing.module';
+import { ToastModule } from 'primeng/toast';
+import { DropdownModule } from 'primeng/dropdown';
+import { MultiSelectModule } from 'primeng/multiselect';
 
 
 @NgModule({
@@ -25,7 +29,11 @@ import { SplitButtonModule } from 'primeng/splitbutton';
         PanelMenuModule,
         ButtonModule,
         DashboardsRoutingModule,
-        SplitButtonModule
+        SplitButtonModule,
+        CrudRoutingModule,
+        ToastModule,
+        DropdownModule,
+        MultiSelectModule
     ],
     declarations: [DashboardComponent]
 })
