@@ -87,27 +87,25 @@ export class DashboardComponent implements OnInit, OnDestroy {
     saveTime() {
         this.submitted = true;
         if (this.time.name?.trim()) {
-            this.time.team_id = this.createId();
-            if (this.projectSelecionado && this.projectSelecionado.project_id) {
-                this.time.project_id = this.projectSelecionado.project_id;
-            }
+          if (this.projectSelecionado && this.projectSelecionado.project_id) {
+            this.time.project_id = this.projectSelecionado.project_id;
+          }
     
-            const userTeams = this.selectedUsers.map(user => ({
-                user_id: user.id,
-                id: this.createId()
-            }));
+          const userTeams = this.selectedUsers.map(user => ({
+            user_id: user.id,
+            team_id: this.time.team_id
+          }));
     
-            // Usar o novo método para criar o time e vincular os usuários
-            this.teamService.createTeamWithUsers(this.time, userTeams).subscribe(newTeam => {
-                this.times.push(newTeam);
-                this.messageService.add({ severity: 'success', summary: 'Successful', detail: 'Team Created', life: 3000 });
-                this.times = [...this.times];
-                this.timeDialog = false;
-                this.time = {};
-                this.selectedUsers = [];
-            });
+          this.teamService.createTeamWithUsers(this.time, userTeams).subscribe(newTeam => {
+            this.times.push(newTeam);
+            this.messageService.add({ severity: 'success', summary: 'Successful', detail: 'Team Created', life: 3000 });
+            this.times = [...this.times];
+            this.timeDialog = false;
+            this.time = {};
+            this.selectedUsers = [];
+          });
         }
-    }
+      }
     
     
 

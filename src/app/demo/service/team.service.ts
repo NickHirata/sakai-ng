@@ -38,7 +38,7 @@ export class TeamService {
     return new Observable(observer => {
       this.addTeam(team).subscribe(newTeam => {
         const userTeamsWithTeamId = userTeams.map(userTeam => ({
-          ...userTeam,
+          user_id: userTeam.user_id,
           team_id: newTeam.team_id
         }));
         this.addUserTeams(userTeamsWithTeamId).subscribe(() => {
@@ -48,6 +48,7 @@ export class TeamService {
       });
     });
   }
+
 
   updateTeam(team: any): Observable<any> {
     const url = `${this.baseUrl}/${team.team_id}`;
