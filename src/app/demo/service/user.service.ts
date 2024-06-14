@@ -1,6 +1,7 @@
 import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { Observable } from 'rxjs';
+import { User } from '../api/user';
 
 @Injectable({
   providedIn: 'root'
@@ -8,8 +9,8 @@ import { Observable } from 'rxjs';
 export class UserService {
   private baseUrl = 'http://localhost:3000/users';
 
-  userLogado: any;
-  
+  userLogado: User;
+
   constructor(private http: HttpClient) { }
 
   getUsers(): Observable<any[]> {
