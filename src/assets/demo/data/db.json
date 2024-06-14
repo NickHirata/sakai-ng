@@ -89,6 +89,12 @@
       "team_id": 21165,
       "name": "Time devops",
       "project_id": 2
+    },
+    {
+      "id": "8687",
+      "team_id": 50533,
+      "name": "Time engenharia de dados",
+      "project_id": 1
     }
   ],
   "userTeams": [
@@ -136,6 +142,11 @@
       "id": 0.42155024977914657,
       "user_id": "2",
       "team_id": 21165
+    },
+    {
+      "id": 0.8572557307423379,
+      "user_id": "1",
+      "team_id": 50533
     }
   ],
   "projects": [

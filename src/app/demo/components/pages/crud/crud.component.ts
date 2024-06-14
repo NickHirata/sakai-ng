@@ -1,7 +1,7 @@
 import { ImpedimentService } from './../../../service/impediment.service';
 import { Impediment } from './../../../api/impediment';
 import { ProjectService } from './../../../service/project.service';
-import { User } from './../../../api/user';
+import { User, UserTeam } from './../../../api/user';
 import { UserService } from './../../../service/user.service';
 import { Component, OnInit } from '@angular/core';
 import { MessageService } from 'primeng/api';
@@ -48,19 +48,28 @@ export class CrudComponent implements OnInit {
     rowsPerPageOptions = [5, 10, 20];
     private taskSubscription: Subscription;
     userLogado: any = this.userService.getUser();
+    timesUserLogado: Team[] = [];
+    userProjectIds: number[] = [];
     constructor(private taskService: TaskService, private userService: UserService,
          private projectService: ProjectService, private messageService: MessageService,
         private impedimentService: ImpedimentService, private teamService: TeamService) { }
 
     ngOnInit() {
         this.userService.getUsers().subscribe(data => this.users = data);
-        this.projectService.getProjects().subscribe(data => this.projects = data);
+
         // this.taskService.getTasks().subscribe(data => this.tasks = data);
         this.taskService.getTasksByProject(this.projetoSelecionado.project_id).subscribe(data => this.tasks = data);
         this.impedimentService.getImpediments().subscribe(data => this.impediments = data);
         this.teamService.getTeams().subscribe(data => this.times = data)
         this.loadProjectsAndUsers();
 
+        if (this.userLogado.type === 'administrador') {
+            // Se for administrador, carrega todos os projetos
+            this.projectService.getProjects().subscribe(data => this.projects = data);
+        } else {
+            // Se não for administrador, carrega apenas os projetos associados aos times do usuário
+            this.loadProjectsForUserTeams();
+        }
         this.cols = [
             { field: 'name', header: 'Name' },
             { field: 'description', header: 'Description' },
@@ -76,10 +85,40 @@ export class CrudComponent implements OnInit {
             { label: 'AGUARDANDO', value: 'aguardando' }
         ];
 
+        this.teamService.getTeamByIdUser(this.userLogado.id).subscribe((userTeams: UserTeam[]) => {
+            // Para cada time associado ao usuário logado, encontra os detalhes completos do time
+            userTeams.forEach(userTeam => {
+                this.teamService.getTimeByID(userTeam.team_id).subscribe((team: Team[]) => {
+                    if (team && team.length > 0) { // Verifique se a equipe existe e não está vazia
+                        team.forEach(t => {
+                            this.timesUserLogado.push(t); // Adicione todos os times
+                        });
+                    }
+                });
+            });
+        });
 
 
     }
 
+    loadProjectsForUserTeams() {
+        // Limpa a lista de projetos para carregar apenas os projetos associados aos times do usuário
+        this.projects = [];
+
+        // Para cada time do usuário logado, busca os projetos associados
+        this.timesUserLogado.forEach(team => {
+            // Adiciona os project_ids dos times do usuário ao array
+            this.userProjectIds.push(team.project_id);
+        });
+        this.userProjectIds = Array.from(new Set(this.userProjectIds));
+        this.userProjectIds.forEach(projectId => {
+            this.projectService.getProjectByID(projectId).subscribe((project: Project[]) => {
+                    project.forEach(p =>{
+                        this.projects.push(p); // Adiciona o projeto na lista de projetos
+                    })
+            });
+        });
+    }
     loadProjectsAndUsers() {
         this.userService.getUsers().subscribe(data => this.users = data);
         this.projectService.getProjects().subscribe(data => {
@@ -173,7 +212,7 @@ export class CrudComponent implements OnInit {
 
     }
 
- 
+
     openImpedimento() {
         this.task = {};
         this.submitted = false;

@@ -13,6 +13,10 @@ export class ProjectService {
   getProjects(): Observable<any[]> {
     return this.http.get<any[]>(this.baseUrl);
   }
+  getProjectByID(id: number): Observable<any[]> {
+    const url = `${this.baseUrl}?project_id=${id}`;
+    return this.http.get<any[]>(url);
+  }
 
   addProject(project: any): Observable<any> {
     return this.http.post<any>(this.baseUrl, project);

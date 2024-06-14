@@ -60,7 +60,7 @@ export class TeamService {
     });
   }
   updateTeam(team: any): Observable<any> {
-    const url = `${this.baseUrl}/${team.team_id}`;
+    const url = `${this.userTeamsUrl}/${team.id}`;
     return this.http.put<any>(url, team);
   }
 
